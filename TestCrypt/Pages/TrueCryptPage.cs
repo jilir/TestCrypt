@@ -71,7 +71,7 @@ namespace TestCrypt.Pages
                     messageBuilder.Append(' ');
                 }
 
-                MessageBox.Show(this, messageBuilder.ToString(), "TestCrypt", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(this, messageBuilder.ToString(), Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 e.Cancel = true;
             }
             else

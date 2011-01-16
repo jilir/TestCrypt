@@ -48,7 +48,10 @@ namespace TestCrypt.Pages
         /// </summary>
         private TimeSpan remainingTimeTotal;
 
-
+        /// <summary>
+        /// Stores whether the analyzer has been canceled by the user.
+        /// </summary>
+        private bool canceled;
         #endregion
         
         #region Constructors
@@ -76,6 +79,7 @@ namespace TestCrypt.Pages
 
             // start a background worker to scan for TrueCrypt volumes
             ready = false;
+            canceled = false;
             backgroundWorker.RunWorkerAsync();
         }
 
@@ -84,9 +88,10 @@ namespace TestCrypt.Pages
             if (backgroundWorker.IsBusy)
             {
                 const string message = "The analyzer is still in progress. If you go back the analyzer will be canceled. Do you really want to continue?";
-                if (MessageBox.Show(this, message, "TestCrypt", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                if (MessageBox.Show(this, message, Application.ProductName, MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                 {
                      // cancel the background worker and wait for cancellation
+                    canceled = true;
                     backgroundWorker.CancelAsync();
                     resetEvent.WaitOne();
                 }
@@ -132,7 +137,7 @@ namespace TestCrypt.Pages
                     if (progressMutex.WaitOne())
                     {
                         task = range;
-                        progressTask = ((curLba - range.StartLba) * 100.0) / (range.EndLba - range.StartLba);
+                        progressTask = (((curLba + 1) - range.StartLba) * 100.0) / ((range.EndLba - range.StartLba) + 1);
                         progressTotal = (double)totalCurrentLba / totalLbaCount;
                         if (progressTotal > 0)
                         {
@@ -185,9 +190,9 @@ namespace TestCrypt.Pages
                 ready = true;
                 OnReadyChanged(new EventArgs());
             }
-            else
+            else if (!canceled)
             {
-                MessageBox.Show(this, "No TrueCrypt header could be found.", "TestCrypt", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(this, "No TrueCrypt header could be found.", Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         #endregion

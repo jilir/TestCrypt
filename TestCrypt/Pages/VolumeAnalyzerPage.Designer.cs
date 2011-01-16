@@ -41,10 +41,15 @@
             this.optBeginAutomatic = new System.Windows.Forms.RadioButton();
             this.optBeginNoAnalyze = new System.Windows.Forms.RadioButton();
             this.grpCustomAnalyzer = new System.Windows.Forms.GroupBox();
+            this.dgvCustomAnalyzer = new System.Windows.Forms.DataGridView();
+            this.dgvCustomAnalyzerColStart = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgvCustomAnalyzerColEnd = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.grpEnd.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.txtEndSectors)).BeginInit();
             this.grpBegin.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.txtBeginSectors)).BeginInit();
+            this.grpCustomAnalyzer.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvCustomAnalyzer)).BeginInit();
             this.SuspendLayout();
             // 
             // grpEnd
@@ -187,12 +192,38 @@
             this.grpCustomAnalyzer.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
+            this.grpCustomAnalyzer.Controls.Add(this.dgvCustomAnalyzer);
             this.grpCustomAnalyzer.Location = new System.Drawing.Point(3, 131);
             this.grpCustomAnalyzer.Name = "grpCustomAnalyzer";
             this.grpCustomAnalyzer.Size = new System.Drawing.Size(669, 199);
             this.grpCustomAnalyzer.TabIndex = 15;
             this.grpCustomAnalyzer.TabStop = false;
-            this.grpCustomAnalyzer.Text = "Custom Analyzer (not implemented)";
+            this.grpCustomAnalyzer.Text = "Custom Analyzer";
+            // 
+            // dgvCustomAnalyzer
+            // 
+            this.dgvCustomAnalyzer.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dgvCustomAnalyzer.BackgroundColor = System.Drawing.SystemColors.Window;
+            this.dgvCustomAnalyzer.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvCustomAnalyzer.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.dgvCustomAnalyzerColStart,
+            this.dgvCustomAnalyzerColEnd});
+            this.dgvCustomAnalyzer.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgvCustomAnalyzer.Location = new System.Drawing.Point(3, 16);
+            this.dgvCustomAnalyzer.Name = "dgvCustomAnalyzer";
+            this.dgvCustomAnalyzer.Size = new System.Drawing.Size(663, 180);
+            this.dgvCustomAnalyzer.TabIndex = 0;
+            this.dgvCustomAnalyzer.RowValidating += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.dgvCustomAnalyzer_RowValidating);
+            // 
+            // dgvCustomAnalyzerColStart
+            // 
+            this.dgvCustomAnalyzerColStart.HeaderText = "Start Offset (C/H/S or LBA)";
+            this.dgvCustomAnalyzerColStart.Name = "dgvCustomAnalyzerColStart";
+            // 
+            // dgvCustomAnalyzerColEnd
+            // 
+            this.dgvCustomAnalyzerColEnd.HeaderText = "End Offset (C/H/S or LBA)";
+            this.dgvCustomAnalyzerColEnd.Name = "dgvCustomAnalyzerColEnd";
             // 
             // VolumeAnalyzerPage
             // 
@@ -206,12 +237,15 @@
             this.Subtitle = "Configure analyzer parameters to scan for TrueCrypt volumes";
             this.Title = "Volume Analyzer";
             this.PageActivated += new System.EventHandler<System.EventArgs>(this.VolumeAnalyzerPage_PageActivated);
+            this.PageNext += new System.EventHandler<TestCrypt.WizardPage.PageTransitionEventArgs>(this.VolumeAnalyzerPage_PageNext);
             this.grpEnd.ResumeLayout(false);
             this.grpEnd.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.txtEndSectors)).EndInit();
             this.grpBegin.ResumeLayout(false);
             this.grpBegin.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.txtBeginSectors)).EndInit();
+            this.grpCustomAnalyzer.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dgvCustomAnalyzer)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -231,5 +265,8 @@
         private System.Windows.Forms.RadioButton optBeginAutomatic;
         private System.Windows.Forms.RadioButton optBeginNoAnalyze;
         private System.Windows.Forms.GroupBox grpCustomAnalyzer;
+        private System.Windows.Forms.DataGridView dgvCustomAnalyzer;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dgvCustomAnalyzerColStart;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dgvCustomAnalyzerColEnd;
     }
 }

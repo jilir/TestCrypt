@@ -122,6 +122,18 @@ namespace TestCrypt.Pages
             }            
             summaryBuilder.AppendLine();
 
+            summaryBuilder.AppendLine("Custom Analyzer");
+            summaryBuilder.AppendLine("================================================================================");
+            foreach (PageContext.ScanRange range in context.CustomAnalyzer)
+            {
+                PhysicalDrive.CylinderHeadSector chsStartOffset = PhysicalDrive.LbaToChs(range.StartLba, drive.Geometry);
+                PhysicalDrive.CylinderHeadSector chsEndOffset = PhysicalDrive.LbaToChs(range.EndLba, drive.Geometry);
+                summaryBuilder.AppendLine(string.Format("{1}/{2}/{3} ({0} LBA) - {5}/{6}/{7} ({4} LBA)",
+                                                        range.StartLba, chsStartOffset.Cylinders, chsStartOffset.TracksPerCylinder, chsStartOffset.SectorsPerTrack,
+                                                        range.EndLba, chsEndOffset.Cylinders, chsEndOffset.TracksPerCylinder, chsEndOffset.SectorsPerTrack));   
+            }
+            summaryBuilder.AppendLine();
+
             // prepare the optimized scan ranges summary
             summaryBuilder.AppendLine("Scan Ranges (optimized)");
             summaryBuilder.AppendLine("================================================================================");
@@ -142,7 +154,7 @@ namespace TestCrypt.Pages
         {
             if (context.GetOptimizedScanRanges().Count == 0)
             {
-                MessageBox.Show(this, "No scan ranges have been defined. In order to continue at least one scan range has to be defined first.", "TestCrypt", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(this, "No scan ranges have been defined. In order to continue at least one scan range has to be defined first.", Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 e.Cancel = true;
             }
         }

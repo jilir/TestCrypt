@@ -115,6 +115,8 @@ namespace TestCrypt
         private VolumeAnalyzer volumeBeginAnalyzer;
         private VolumeAnalyzer volumeEndAnalyzer;
 
+        private List<ScanRange> customAnalyzer;
+
         private List<Header> headerList;
         #endregion
 
@@ -153,6 +155,11 @@ namespace TestCrypt
             set { this.volumeEndAnalyzer = value; }
         }
 
+        public List<ScanRange> CustomAnalyzer
+        {
+            get { return this.customAnalyzer; }
+        }
+
         public List<Header> HeaderList
         {
             get { return this.headerList; }
@@ -166,6 +173,7 @@ namespace TestCrypt
             this.partitionEndAnalyzer = new List<PartitionAnalyzer>();
             this.volumeBeginAnalyzer = new VolumeAnalyzer(AnalyzeType.None, 0);
             this.volumeEndAnalyzer = new VolumeAnalyzer(AnalyzeType.None, 0);
+            this.customAnalyzer = new List<ScanRange>();
             this.headerList = new List<Header>();
         }
         #endregion
@@ -266,7 +274,8 @@ namespace TestCrypt
                     AddRange(scanRanges, new ScanRange(0, 4096));
                     break;
                 case AnalyzeType.Manual:
-                    AddRange(scanRanges, new ScanRange(0, volumeBeginAnalyzer.Sectors));
+                    System.Diagnostics.Debug.Assert(volumeBeginAnalyzer.Sectors > 0);
+                    AddRange(scanRanges, new ScanRange(0, volumeBeginAnalyzer.Sectors - 1));
                     break;
             }
 
@@ -325,13 +334,16 @@ namespace TestCrypt
                 }
             }
 
+            foreach (ScanRange range in customAnalyzer)
+            {
+                AddRange(scanRanges, range);
+            }
+
             // sort the scan ranges in the list ascending by the start LBA
             scanRanges.Sort(new AscendingScanRangeComparer());
 
             return scanRanges;
         }
-
-   
         #endregion
     }
 }

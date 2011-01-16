@@ -15,6 +15,8 @@ namespace TestCrypt
         private WizardPage[] pages;
 
         private int activePage;
+
+        private bool silentExit;
         #endregion
 
         #region Constructors
@@ -37,8 +39,6 @@ namespace TestCrypt
 
             // activate the first wizard page
             ActivatePage(0);
-
-            TrueCrypt.EncryptionThreadPoolStart(4);
         }
         #endregion
 
@@ -147,10 +147,35 @@ namespace TestCrypt
             Close();
         }
 
+        private void FormMain_Load(object sender, EventArgs e)
+        {
+            // start the encryption thread pool to speed up the analyzer - this is also the first access to the native 
+            // "TrueCrypt.dll" and therefore an exception may occur when the library cannot be loaded
+            try
+            {
+                TrueCrypt.EncryptionThreadPoolStart(Environment.ProcessorCount);
+            }
+            catch (DllNotFoundException)
+            {
+                MessageBox.Show(this, "Unable to load DLL \"TrueCrypt.dll\": This could be caused by a missing Microsoft Visual C++ 2010 Redistributable Package (x86).", Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                silentExit = true;
+                Close();
+            }
+
+            // inform the user that some 64-bit operating systems are not supported due to driver signing
+            if (Wow.Is64BitOperatingSystem && Wow.IsOSAtLeast(Wow.OSVersion.WIN_VISTA))
+            {
+                MessageBox.Show(this, "A 64-bit operating system which requires signed drivers (Windows® Vista or newer) has been detected. Mounting a volume is not supported and will fail unless you have signed the driver on your own.", Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+        }
+
         private void FormMain_FormClosing(object sender, FormClosingEventArgs e)
         {
-            // it is a little bit to easy to close the wizard unintentionally: let the user confirm that he wants to close the wizard
-            e.Cancel = MessageBox.Show(this, "Do you really want to exit TestCrypt", "TestCrypt", MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes; 
+            if (!silentExit)
+            {
+                // it is a little bit to easy to close the wizard unintentionally: let the user confirm that he wants to close the wizard
+                e.Cancel = MessageBox.Show(this, "Do you really want to exit TestCrypt", Application.ProductName, MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes; 
+            }
         }
         #endregion
     }

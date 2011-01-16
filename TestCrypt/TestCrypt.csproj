@@ -14,8 +14,11 @@
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkSubset>
     </TargetFrameworkSubset>
-    <ApplicationManifest>app.manifest</ApplicationManifest>
     <ApplicationIcon>unlock.ico</ApplicationIcon>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <SignManifests>false</SignManifests>
+    <TargetZone>Internet</TargetZone>
+    <GenerateManifests>false</GenerateManifests>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -28,9 +31,10 @@
     <MapFileExtensions>true</MapFileExtensions>
     <ApplicationRevision>0</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <StartupObject>TestCrypt.Program</StartupObject>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -74,6 +78,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DeviceApi.cs" />
     <Compile Include="EtchedLine.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -184,12 +189,22 @@
     <Compile Include="WizardPage.Designer.cs">
       <DependentUpon>WizardPage.cs</DependentUpon>
     </Compile>
+    <Compile Include="Wow.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.manifest" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\speaker_stand_3.ico" />
+    <None Include="testcrypt-x64.sys">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="testcrypt.sys">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <Content Include="TrueCrypt.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="unlock.ico" />
   </ItemGroup>
   <ItemGroup>
@@ -218,6 +233,9 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Dependencies\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

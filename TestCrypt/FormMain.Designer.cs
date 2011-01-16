@@ -167,7 +167,8 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.Name = "FormMain";
-            this.Text = "TestCrypt 0.2.2";
+            this.Text = "TestCrypt 0.3.0";
+            this.Load += new System.EventHandler(this.FormMain_Load);
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormMain_FormClosing);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();

@@ -31,7 +31,7 @@ namespace TestCrypt
             try
             {
                 Exception ex = (Exception)e.ExceptionObject;
-                MessageBox.Show(string.Format("{1}{0}Stack Trace:{0}{2}", Environment.NewLine, ex.Message, ex.StackTrace), "Unhandled Exception", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                MessageBox.Show(string.Format("{1}{0}Stack Trace:{0}{2}", Environment.NewLine, ex.Message, ex.StackTrace), Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Stop);
             }
             finally
             {

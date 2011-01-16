@@ -28,7 +28,7 @@ namespace TestCrypt.Pages
         {
             foreach (PhysicalDrive.DriveInfo drive in PhysicalDrive.Drives)
             {
-                ListViewItem item = new ListViewItem(drive.Volume);
+                ListViewItem item = new ListViewItem(string.Format("PhysicalDrive{0}", drive.Volume));
                 item.Tag = drive;
 
                 item.SubItems.Add(drive.Geometry.MediaType.ToString());

@@ -13,7 +13,7 @@ namespace TestCrypt.Pages
         #region Attributes
         private PageContext context;
 
-        private string volume;
+        private uint volume = uint.MaxValue;
         #endregion
 
         #region Constructor
@@ -92,13 +92,10 @@ namespace TestCrypt.Pages
             }
 
             // discard stored partition analyzer parameters in case another drive has been selected
-            if (volume != null)
+            if (context.Drive.Volume != volume)
             {
-                if (context.Drive.Volume != volume)
-                {
-                    context.PartitionBeginAnalyzer.Clear();
-                    context.PartitionEndAnalyzer.Clear();
-                }
+                context.PartitionBeginAnalyzer.Clear();
+                context.PartitionEndAnalyzer.Clear();
             }
             volume = context.Drive.Volume;
 
