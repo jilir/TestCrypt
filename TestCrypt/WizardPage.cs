@@ -24,6 +24,12 @@ namespace TestCrypt
             /// Stores a value indicating whether the event should be cancelled.
             /// </summary>
             private bool cancel;
+
+            /// <summary>
+            /// The new page will be derived by incrementing (event PageNext) or decrementing (even PageBack) the 
+            /// current page of the wizard by this value.
+            /// </summary>
+            private uint pageCount;
             #endregion
 
             #region Properties
@@ -34,7 +40,17 @@ namespace TestCrypt
             {
                 get { return this.cancel; }
                 set { this.cancel = value; }
-            }                
+            }
+
+            /// <summary>
+            /// Gets or sets the value that will be used to derive the new page by incrementing (event PageNext) or
+            /// decrementing (even PageBack) the current page of the wizard by this value.
+            /// </summary>
+            public uint PageCount
+            {
+                get { return this.pageCount; }
+                set { this.pageCount = value; }
+            }
             #endregion
 
             #region Constructors
@@ -44,6 +60,7 @@ namespace TestCrypt
             public PageTransitionEventArgs()
             {
                 this.cancel = false;
+                this.pageCount = 1;
             }
             #endregion
         }

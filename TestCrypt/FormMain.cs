@@ -70,9 +70,13 @@ namespace TestCrypt
         /// <param name="page">The page of the wizard that should be activated.</param>
         public void ActivatePage(int page) 
         {
-            if ((page < 0) || (page >= pages.Length))
+            if (page < 0)
             {
-                throw new ArgumentOutOfRangeException("page");
+                page = 0;
+            }
+            else if (page >= pages.Length)
+            {
+                page = pages.Length - 1;
             }
 
             // add wizard page to the wizard if not done already
@@ -118,7 +122,7 @@ namespace TestCrypt
                 if ((activePage + 1) < pages.Length)
                 {
                     // activate the next page
-                    ActivatePage(activePage + 1);
+                    ActivatePage((int)(activePage + args.PageCount));
                 }
                 else
                 {
@@ -134,7 +138,7 @@ namespace TestCrypt
             pages[activePage].OnPageBack(args);
             if (!args.Cancel)
             {
-                ActivatePage(activePage - 1);
+                ActivatePage((int)(activePage - args.PageCount));
             }
         }
 

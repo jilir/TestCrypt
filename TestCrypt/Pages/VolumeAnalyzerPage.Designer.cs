@@ -192,7 +192,7 @@
             this.grpCustomAnalyzer.Size = new System.Drawing.Size(669, 199);
             this.grpCustomAnalyzer.TabIndex = 15;
             this.grpCustomAnalyzer.TabStop = false;
-            this.grpCustomAnalyzer.Text = "Custom Analyzer (not ready)";
+            this.grpCustomAnalyzer.Text = "Custom Analyzer (not implemented)";
             // 
             // VolumeAnalyzerPage
             // 

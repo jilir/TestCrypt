@@ -22,7 +22,13 @@ namespace TestCrypt
         /// <summary>
         /// The volume header size;
         /// </summary>
-        public const int TC_VOLUME_HEADER_SIZE = 2 * 64 * 1024;
+        public const int TC_VOLUME_HEADER_SIZE = 64 * 1024;
+
+        /// <summary>
+        /// The volume header group size (including normal and hidden volume header);
+        /// </summary>
+        public const int TC_VOLUME_HEADER_GROUP_SIZE = 2 * TC_VOLUME_HEADER_SIZE;
+
         #endregion
 
         #region P/Invoke
