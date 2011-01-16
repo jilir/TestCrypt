@@ -37,6 +37,7 @@
             this.lblTitle = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.pagePanel = new System.Windows.Forms.Panel();
+            this.lblBasedOnTrueCrypt = new System.Windows.Forms.LinkLabel();
             this.etchedLine2 = new TestCrypt.EtchedLine();
             this.etchedLine1 = new TestCrypt.EtchedLine();
             this.panel1.SuspendLayout();
@@ -129,6 +130,20 @@
             this.pagePanel.Size = new System.Drawing.Size(718, 251);
             this.pagePanel.TabIndex = 8;
             // 
+            // lblBasedOnTrueCrypt
+            // 
+            this.lblBasedOnTrueCrypt.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.lblBasedOnTrueCrypt.AutoSize = true;
+            this.lblBasedOnTrueCrypt.LinkArea = new System.Windows.Forms.LinkArea(40, 65);
+            this.lblBasedOnTrueCrypt.Location = new System.Drawing.Point(0, 357);
+            this.lblBasedOnTrueCrypt.Name = "lblBasedOnTrueCrypt";
+            this.lblBasedOnTrueCrypt.Size = new System.Drawing.Size(325, 17);
+            this.lblBasedOnTrueCrypt.TabIndex = 12;
+            this.lblBasedOnTrueCrypt.TabStop = true;
+            this.lblBasedOnTrueCrypt.Text = "Based on TrueCrypt, freely available at http://www.truecrypt.org/";
+            this.lblBasedOnTrueCrypt.UseCompatibleTextRendering = true;
+            this.lblBasedOnTrueCrypt.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lblBasedOnTrueCrypt_LinkClicked);
+            // 
             // etchedLine2
             // 
             this.etchedLine2.DarkColor = System.Drawing.SystemColors.ControlDark;
@@ -156,6 +171,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnCancel;
             this.ClientSize = new System.Drawing.Size(720, 386);
+            this.Controls.Add(this.lblBasedOnTrueCrypt);
             this.Controls.Add(this.etchedLine2);
             this.Controls.Add(this.etchedLine1);
             this.Controls.Add(this.pagePanel);
@@ -167,13 +183,14 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.Name = "FormMain";
-            this.Text = "TestCrypt 0.4.0";
+            this.Text = "TestCrypt";
             this.Load += new System.EventHandler(this.FormMain_Load);
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormMain_FormClosing);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -189,6 +206,7 @@
         private System.Windows.Forms.Label lblSubtitle;
         private System.Windows.Forms.Label lblTitle;
         private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.LinkLabel lblBasedOnTrueCrypt;
 
     }
 }

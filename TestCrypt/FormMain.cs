@@ -34,6 +34,10 @@ namespace TestCrypt
                                        new ResultPage(context)
                                      };
 
+            // add the version information to the title
+            string[] version = Application.ProductVersion.Split('.');
+            Text = string.Format("{0} {1}.{2}.{3}", Text, version[0], version[1], version[2]);
+
             // adjust the size of the wizard to the size of the biggest wizard page
             AdjustWizardSize();
 
@@ -176,6 +180,11 @@ namespace TestCrypt
                 // it is a little bit to easy to close the wizard unintentionally: let the user confirm that he wants to close the wizard
                 e.Cancel = MessageBox.Show(this, "Do you really want to exit TestCrypt", Application.ProductName, MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes; 
             }
+        }
+
+        private void lblBasedOnTrueCrypt_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            System.Diagnostics.Process.Start("http://www.truecrypt.org/");
         }
         #endregion
     }
