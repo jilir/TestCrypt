@@ -66,6 +66,14 @@ namespace TestCrypt.Pages
             // clear the list of TrueCrypt headers which have been found in previous scans
             context.HeaderList.Clear();
 
+            // initialize the progress information
+            lblTask.Text = "";
+            prgTask.Value = 0;
+            lblPercentageTask.Text = string.Format("{0:0.00}%", 0);
+            prgTotal.Value = 0;
+            lblPercentageTotal.Text = string.Format("{0:0.00}%", 0);
+            lblTotalEstimatedTimeRemaining.Text = "Estimating...";
+
             // start a background worker to scan for TrueCrypt volumes
             ready = false;
             backgroundWorker.RunWorkerAsync();
@@ -126,10 +134,14 @@ namespace TestCrypt.Pages
                         task = range;
                         progressTask = ((curLba - range.StartLba) * 100.0) / (range.EndLba - range.StartLba);
                         progressTotal = (double)totalCurrentLba / totalLbaCount;
-                        remainingTimeTotal = new TimeSpan((long)((DateTime.Now - startTimeTotal).Ticks / progressTotal));
+                        if (progressTotal > 0)
+                        {
+                            TimeSpan elapsed = DateTime.Now - startTimeTotal;
+                            remainingTimeTotal = new TimeSpan((long)(elapsed.Ticks / progressTotal)) - elapsed;
+                        }
                         progressTotal *= 100.0;
                         progressMutex.ReleaseMutex();
-                        backgroundWorker.ReportProgress((int)(((curLba - range.StartLba) * 100) / (range.EndLba - range.StartLba)));
+                        backgroundWorker.ReportProgress(0);
                     }
 
                     curLba++;
@@ -160,6 +172,14 @@ namespace TestCrypt.Pages
 
         private void backgroundWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
+            lblTask.Text = "";
+            prgTask.Value = 100;
+            lblPercentageTask.Text = string.Format("{0:0.00}%", 100);
+            prgTotal.Value = 100;
+            lblPercentageTotal.Text = string.Format("{0:0.00}%", 100);
+            lblTotalEstimatedTimeRemaining.Text = "Finished";
+
+
             if (context.HeaderList.Count > 0)
             {
                 ready = true;

@@ -175,16 +175,76 @@ namespace TestCrypt
         {
             Int64 totalLba = drive.Size / drive.Geometry.BytesPerSector;
             Int64 lastLbaForScan = totalLba - (TrueCrypt.TC_VOLUME_HEADER_SIZE / drive.Geometry.BytesPerSector);
+
+            // limit the start LBA to a valid LBA
             if (range.StartLba > lastLbaForScan)
             {
                 range.StartLba = lastLbaForScan;
             }
+            else if (range.StartLba < 0)
+            {
+                range.StartLba = 0;
+            }
+
+            // limit the end LBA to a valid LBA
             if (range.EndLba > lastLbaForScan)
             {
                 range.EndLba = lastLbaForScan;
             }
+            else if (range.EndLba < 0)
+            {
+                range.EndLba = 0;
+            }
+
+            // try to optimize the number of ranges that have to be scanned by combining two ranges which overlap        
+            for (int i = rangeList.Count - 1; i >= 0; i--)
+            {
+                // check whether the range that should be added lies completely before or after the current range of 
+                // the list
+                if ((range.EndLba < rangeList[i].StartLba) || (range.StartLba > rangeList[i].EndLba))
+                {
+                    // the range that should be added lies completely before or after the current range of the list: no
+                    // optimization is possible
+                }
+                else
+                {
+                    // optimize the ranges by building one range which covers both ranges
+                    if (rangeList[i].StartLba < range.StartLba)
+                    {
+                        range.StartLba = rangeList[i].StartLba;
+                    }
+                    if (rangeList[i].EndLba > range.EndLba)
+                    {
+                        range.EndLba = rangeList[i].EndLba;
+                    }
+
+                    // remove the current range of the list because it will be replaced by the new range
+                    rangeList.RemoveAt(i);
+                }
+            }
+          
             rangeList.Add(range);
         }
+
+        class AscendingScanRangeComparer : IComparer<ScanRange>
+        {
+            public int Compare(ScanRange x, ScanRange y)
+            {
+                if (x.StartLba == y.StartLba)
+                {
+                    return 0;
+                }
+                else if (x.StartLba > y.StartLba)
+                {
+                    return 1;
+                }
+                else
+                {
+                    return -1;
+                }
+            }
+        }
+
 
         /// <summary>
         /// Gets a list of ranges to scan.
@@ -203,14 +263,7 @@ namespace TestCrypt
             {
                 case AnalyzeType.Automatic:
                     // scan the first 2 MiB of the volume
-                    if (driveSectorCount > 4096)
-                    {
-                        AddRange(scanRanges, new ScanRange(0, 4096));
-                    }
-                    else
-                    {
-                        AddRange(scanRanges, new ScanRange(0, driveSectorCount));
-                    }
+                    AddRange(scanRanges, new ScanRange(0, 4096));
                     break;
                 case AnalyzeType.Manual:
                     AddRange(scanRanges, new ScanRange(0, volumeBeginAnalyzer.Sectors));
@@ -221,19 +274,59 @@ namespace TestCrypt
             {
                 case AnalyzeType.Automatic:
                     // scan the last 10 MiB of the volume
-                    if (driveSectorCount > 20480)
-                    {
-                        AddRange(scanRanges, new ScanRange(driveSectorCount - 20480, driveSectorCount));
-                    }
-                    else
-                    {
-                        AddRange(scanRanges, new ScanRange(0, driveSectorCount));
-                    }
+                    AddRange(scanRanges, new ScanRange(driveSectorCount - 20480, driveSectorCount));
                     break;
                 case AnalyzeType.Manual:
                     AddRange(scanRanges, new ScanRange(driveSectorCount - volumeEndAnalyzer.Sectors, driveSectorCount));
                     break;
             }
+
+            foreach (PartitionAnalyzer analyzer in partitionBeginAnalyzer)
+            {
+                for (int i = 0; i < drive.Partitions.Count; i++)
+                {
+                    if (drive.Partitions[i].PartitionNumber == analyzer.PartitionNumber)
+                    {
+                        Int64 offset = drive.Partitions[i].StartingOffset / drive.Geometry.BytesPerSector;
+                        switch (analyzer.AnalyzerType)
+                        {
+                            case AnalyzeType.Automatic:
+                                // scan 2 MiB before and 2 MiB after the begin of the partition
+                                AddRange(scanRanges, new ScanRange(offset - 4096, offset + 4096));
+                                break;
+                            case AnalyzeType.Manual:
+                                AddRange(scanRanges, new ScanRange(offset - analyzer.SectorsBefore, offset + analyzer.SectorsAfter));
+                                break;
+                        }
+                        break;
+                    }
+                }
+                
+            }
+
+            foreach (PartitionAnalyzer analyzer in partitionEndAnalyzer)
+            {
+                for (int i = 0; i < drive.Partitions.Count; i++)
+                {
+                    if (drive.Partitions[i].PartitionNumber == analyzer.PartitionNumber)
+                    {
+                        Int64 offset = (drive.Partitions[i].StartingOffset + drive.Partitions[i].PartitionLength) / drive.Geometry.BytesPerSector;
+                        switch (analyzer.AnalyzerType)
+                        {
+                            case AnalyzeType.Automatic:
+                                // scan 2 MiB before and 2 MiB after the end of the partition
+                                AddRange(scanRanges, new ScanRange(offset - 4096, offset + 4096));
+                                break;
+                            case AnalyzeType.Manual:
+                                AddRange(scanRanges, new ScanRange(offset - analyzer.SectorsBefore, offset + analyzer.SectorsAfter));
+                                break;
+                        }
+                    }
+                }
+            }
+
+            // sort the scan ranges in the list ascending by the start LBA
+            scanRanges.Sort(new AscendingScanRangeComparer());
 
             return scanRanges;
         }
