@@ -123,12 +123,22 @@ namespace TestCrypt.Pages
             for (int i = 0; (i < rangeList.Count) && !backgroundWorker.CancellationPending; i++)
             {
                 // get the range to scan
-                PageContext.ScanRange range = rangeList[i];                
+                PageContext.ScanRange range = rangeList[i];
 
-                Int64 curLba = range.StartLba;
+                long curLba = range.StartLba;
+                long curOffset = curLba * context.Drive.Geometry.BytesPerSector;
                 while ((curLba <= range.EndLba) && !backgroundWorker.CancellationPending)
                 {
-                    PhysicalDrive.Read(context.Drive.Volume, curLba * context.Drive.Geometry.BytesPerSector, TrueCrypt.TC_VOLUME_HEADER_SIZE, data);
+                    uint length;
+                    if (TrueCrypt.TC_VOLUME_HEADER_SIZE < (context.Drive.Size - curOffset))
+                    {
+                        length = TrueCrypt.TC_VOLUME_HEADER_SIZE;
+                    }
+                    else
+                    {
+                        length = TrueCrypt.TC_VOLUME_HEADER_SIZE_LEGACY;
+                    }
+                    PhysicalDrive.Read(context.Drive.Volume, curOffset, length, data);
                     if (0 == TrueCrypt.ReadVolumeHeader(false, data, ref password, IntPtr.Zero, ref cryptoInfo))
                     {
                         context.HeaderList.Add(new PageContext.Header(curLba, cryptoInfo));
@@ -150,8 +160,9 @@ namespace TestCrypt.Pages
                     }
 
                     curLba++;
+                    curOffset += 512;
                     totalCurrentLba++;
-                }                
+                }
             }
 
             resetEvent.Set();

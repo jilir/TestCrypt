@@ -163,6 +163,14 @@ namespace TestCrypt
         /// </summary>
         public const int TC_VOLUME_HEADER_GROUP_SIZE = 2 * TC_VOLUME_HEADER_SIZE;
 
+        public const int TC_VOLUME_HEADER_SIZE_LEGACY = 512;
+
+        public const int TC_SECTOR_SIZE_LEGACY = 512;
+
+        /// <summary>
+        /// The offset, in bytes, of the legacy hidden volume header position from the end of the file (a positive value).
+        /// </summary>
+        public const int TC_HIDDEN_VOLUME_HEADER_OFFSET_LEGACY = (TC_VOLUME_HEADER_SIZE_LEGACY + TC_SECTOR_SIZE_LEGACY * 2);
         #endregion
 
         #region P/Invoke

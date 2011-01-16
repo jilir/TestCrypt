@@ -327,6 +327,11 @@ namespace TestCrypt
             /// The number of sectors per track.
             /// </summary>
             public uint SectorsPerTrack;
+
+            public override string ToString()
+            {
+                return string.Format("{0}/{1}/{2}", Cylinders, TracksPerCylinder, SectorsPerTrack);
+            }
         }
 
         public class DriveInfo

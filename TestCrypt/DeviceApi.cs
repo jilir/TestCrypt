@@ -227,7 +227,6 @@ namespace TestCrypt
               IntPtr lpNewFilePointer,
               EMoveMethod dwMoveMethod);
 
-
         [DllImport("kernel32.dll", SetLastError = true)]
         public static extern bool ReadFile(
               SafeFileHandle hFile,

@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.lblAnalyzerParameters = new System.Windows.Forms.GroupBox();
+            this.dsgSelectedDisk = new TestCrypt.DiskGraph();
             this.grpEnd = new System.Windows.Forms.GroupBox();
             this.btnEndSet = new System.Windows.Forms.Button();
             this.txtEndSectorsAfter = new System.Windows.Forms.NumericUpDown();
@@ -68,15 +69,29 @@
             this.lblAnalyzerParameters.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblAnalyzerParameters.Controls.Add(this.dsgSelectedDisk);
             this.lblAnalyzerParameters.Controls.Add(this.grpEnd);
             this.lblAnalyzerParameters.Controls.Add(this.grpBegin);
             this.lblAnalyzerParameters.Controls.Add(this.lsvPartitions);
             this.lblAnalyzerParameters.Location = new System.Drawing.Point(3, 3);
             this.lblAnalyzerParameters.Name = "lblAnalyzerParameters";
-            this.lblAnalyzerParameters.Size = new System.Drawing.Size(675, 333);
+            this.lblAnalyzerParameters.Size = new System.Drawing.Size(675, 339);
             this.lblAnalyzerParameters.TabIndex = 0;
             this.lblAnalyzerParameters.TabStop = false;
             this.lblAnalyzerParameters.Text = "Analyzer Parameters for each Partition";
+            // 
+            // dsgSelectedDisk
+            // 
+            this.dsgSelectedDisk.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.dsgSelectedDisk.BackColor = System.Drawing.SystemColors.Control;
+            this.dsgSelectedDisk.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.dsgSelectedDisk.DriveInfo = null;
+            this.dsgSelectedDisk.Location = new System.Drawing.Point(6, 263);
+            this.dsgSelectedDisk.Name = "dsgSelectedDisk";
+            this.dsgSelectedDisk.Size = new System.Drawing.Size(663, 70);
+            this.dsgSelectedDisk.TabIndex = 4;
             // 
             // grpEnd
             // 
@@ -89,16 +104,16 @@
             this.grpEnd.Controls.Add(this.optEndManual);
             this.grpEnd.Controls.Add(this.optEndAutomatic);
             this.grpEnd.Controls.Add(this.optEndNoAnalyze);
-            this.grpEnd.Location = new System.Drawing.Point(346, 171);
+            this.grpEnd.Location = new System.Drawing.Point(346, 145);
             this.grpEnd.Name = "grpEnd";
-            this.grpEnd.Size = new System.Drawing.Size(323, 148);
+            this.grpEnd.Size = new System.Drawing.Size(323, 112);
             this.grpEnd.TabIndex = 0;
             this.grpEnd.TabStop = false;
             this.grpEnd.Text = "End of Partition";
             // 
             // btnEndSet
             // 
-            this.btnEndSet.Location = new System.Drawing.Point(242, 119);
+            this.btnEndSet.Location = new System.Drawing.Point(242, 83);
             this.btnEndSet.Name = "btnEndSet";
             this.btnEndSet.Size = new System.Drawing.Size(75, 23);
             this.btnEndSet.TabIndex = 7;
@@ -108,25 +123,25 @@
             // 
             // txtEndSectorsAfter
             // 
-            this.txtEndSectorsAfter.Location = new System.Drawing.Point(92, 68);
+            this.txtEndSectorsAfter.Location = new System.Drawing.Point(228, 42);
             this.txtEndSectorsAfter.Name = "txtEndSectorsAfter";
-            this.txtEndSectorsAfter.Size = new System.Drawing.Size(92, 20);
+            this.txtEndSectorsAfter.Size = new System.Drawing.Size(89, 20);
             this.txtEndSectorsAfter.TabIndex = 6;
             // 
             // lblEndSectorsAfter
             // 
             this.lblEndSectorsAfter.AutoSize = true;
-            this.lblEndSectorsAfter.Location = new System.Drawing.Point(6, 70);
+            this.lblEndSectorsAfter.Location = new System.Drawing.Point(190, 44);
             this.lblEndSectorsAfter.Name = "lblEndSectorsAfter";
-            this.lblEndSectorsAfter.Size = new System.Drawing.Size(71, 13);
+            this.lblEndSectorsAfter.Size = new System.Drawing.Size(32, 13);
             this.lblEndSectorsAfter.TabIndex = 2;
-            this.lblEndSectorsAfter.Text = "Sectors After:";
+            this.lblEndSectorsAfter.Text = "After:";
             // 
             // txtEndSectorsBefore
             // 
             this.txtEndSectorsBefore.Location = new System.Drawing.Point(92, 42);
             this.txtEndSectorsBefore.Name = "txtEndSectorsBefore";
-            this.txtEndSectorsBefore.Size = new System.Drawing.Size(92, 20);
+            this.txtEndSectorsBefore.Size = new System.Drawing.Size(89, 20);
             this.txtEndSectorsBefore.TabIndex = 5;
             // 
             // lblEndSectorsBefore
@@ -153,7 +168,7 @@
             // optEndAutomatic
             // 
             this.optEndAutomatic.AutoSize = true;
-            this.optEndAutomatic.Location = new System.Drawing.Point(6, 95);
+            this.optEndAutomatic.Location = new System.Drawing.Point(6, 68);
             this.optEndAutomatic.Name = "optEndAutomatic";
             this.optEndAutomatic.Size = new System.Drawing.Size(72, 17);
             this.optEndAutomatic.TabIndex = 3;
@@ -165,7 +180,7 @@
             // optEndNoAnalyze
             // 
             this.optEndNoAnalyze.AutoSize = true;
-            this.optEndNoAnalyze.Location = new System.Drawing.Point(6, 118);
+            this.optEndNoAnalyze.Location = new System.Drawing.Point(6, 91);
             this.optEndNoAnalyze.Name = "optEndNoAnalyze";
             this.optEndNoAnalyze.Size = new System.Drawing.Size(96, 17);
             this.optEndNoAnalyze.TabIndex = 4;
@@ -185,16 +200,16 @@
             this.grpBegin.Controls.Add(this.optBeginManual);
             this.grpBegin.Controls.Add(this.optBeginAutomatic);
             this.grpBegin.Controls.Add(this.optBeginNoAnalyze);
-            this.grpBegin.Location = new System.Drawing.Point(6, 171);
+            this.grpBegin.Location = new System.Drawing.Point(6, 145);
             this.grpBegin.Name = "grpBegin";
-            this.grpBegin.Size = new System.Drawing.Size(323, 148);
+            this.grpBegin.Size = new System.Drawing.Size(323, 112);
             this.grpBegin.TabIndex = 2;
             this.grpBegin.TabStop = false;
             this.grpBegin.Text = "Begin of Partition";
             // 
             // btnBeginSet
             // 
-            this.btnBeginSet.Location = new System.Drawing.Point(242, 119);
+            this.btnBeginSet.Location = new System.Drawing.Point(242, 83);
             this.btnBeginSet.Name = "btnBeginSet";
             this.btnBeginSet.Size = new System.Drawing.Size(75, 23);
             this.btnBeginSet.TabIndex = 7;
@@ -204,25 +219,25 @@
             // 
             // txtBeginSectorsAfter
             // 
-            this.txtBeginSectorsAfter.Location = new System.Drawing.Point(92, 68);
+            this.txtBeginSectorsAfter.Location = new System.Drawing.Point(225, 42);
             this.txtBeginSectorsAfter.Name = "txtBeginSectorsAfter";
-            this.txtBeginSectorsAfter.Size = new System.Drawing.Size(92, 20);
+            this.txtBeginSectorsAfter.Size = new System.Drawing.Size(89, 20);
             this.txtBeginSectorsAfter.TabIndex = 6;
             // 
             // lblBeginSectorsAfter
             // 
             this.lblBeginSectorsAfter.AutoSize = true;
-            this.lblBeginSectorsAfter.Location = new System.Drawing.Point(6, 70);
+            this.lblBeginSectorsAfter.Location = new System.Drawing.Point(187, 44);
             this.lblBeginSectorsAfter.Name = "lblBeginSectorsAfter";
-            this.lblBeginSectorsAfter.Size = new System.Drawing.Size(71, 13);
+            this.lblBeginSectorsAfter.Size = new System.Drawing.Size(32, 13);
             this.lblBeginSectorsAfter.TabIndex = 2;
-            this.lblBeginSectorsAfter.Text = "Sectors After:";
+            this.lblBeginSectorsAfter.Text = "After:";
             // 
             // txtBeginSectorsBefore
             // 
             this.txtBeginSectorsBefore.Location = new System.Drawing.Point(92, 42);
             this.txtBeginSectorsBefore.Name = "txtBeginSectorsBefore";
-            this.txtBeginSectorsBefore.Size = new System.Drawing.Size(92, 20);
+            this.txtBeginSectorsBefore.Size = new System.Drawing.Size(89, 20);
             this.txtBeginSectorsBefore.TabIndex = 5;
             // 
             // lblBeginSectorsBefore
@@ -249,7 +264,7 @@
             // optBeginAutomatic
             // 
             this.optBeginAutomatic.AutoSize = true;
-            this.optBeginAutomatic.Location = new System.Drawing.Point(6, 95);
+            this.optBeginAutomatic.Location = new System.Drawing.Point(6, 68);
             this.optBeginAutomatic.Name = "optBeginAutomatic";
             this.optBeginAutomatic.Size = new System.Drawing.Size(72, 17);
             this.optBeginAutomatic.TabIndex = 3;
@@ -261,7 +276,7 @@
             // optBeginNoAnalyze
             // 
             this.optBeginNoAnalyze.AutoSize = true;
-            this.optBeginNoAnalyze.Location = new System.Drawing.Point(6, 118);
+            this.optBeginNoAnalyze.Location = new System.Drawing.Point(6, 91);
             this.optBeginNoAnalyze.Name = "optBeginNoAnalyze";
             this.optBeginNoAnalyze.Size = new System.Drawing.Size(96, 17);
             this.optBeginNoAnalyze.TabIndex = 4;
@@ -287,7 +302,7 @@
             this.lsvPartitions.Location = new System.Drawing.Point(6, 19);
             this.lsvPartitions.MultiSelect = false;
             this.lsvPartitions.Name = "lsvPartitions";
-            this.lsvPartitions.Size = new System.Drawing.Size(663, 146);
+            this.lsvPartitions.Size = new System.Drawing.Size(663, 120);
             this.lsvPartitions.TabIndex = 0;
             this.lsvPartitions.UseCompatibleStateImageBehavior = false;
             this.lsvPartitions.View = System.Windows.Forms.View.Details;
@@ -371,6 +386,7 @@
         private System.Windows.Forms.ColumnHeader lsvPartitionsColSize;
         private System.Windows.Forms.ColumnHeader lsvPartitionsColEndOffset;
         private System.Windows.Forms.ColumnHeader lsvPartitionsColType;
+        private DiskGraph dsgSelectedDisk;
 
     }
 }

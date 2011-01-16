@@ -79,9 +79,9 @@ namespace TestCrypt.Pages
                 summaryBuilder.AppendLine(string.Format("Type: {0} - {1}", partition.PartitionType, PartitionTypes.GetPartitionType(partition.PartitionType)));
                 summaryBuilder.AppendLine(string.Format("Bootable: {0}", partition.BootIndicator.ToString()));
                 PhysicalDrive.CylinderHeadSector chsStartOffset = PhysicalDrive.LbaToChs((partition.StartingOffset / drive.Geometry.BytesPerSector), drive.Geometry);
-                summaryBuilder.AppendLine(string.Format("Start Offset: {1}/{2}/{3} ({0} Bytes)", partition.StartingOffset, chsStartOffset.Cylinders, chsStartOffset.TracksPerCylinder, chsStartOffset.SectorsPerTrack));
+                summaryBuilder.AppendLine(string.Format("Start Offset: {1} ({0} Bytes)", partition.StartingOffset, chsStartOffset));
                 PhysicalDrive.CylinderHeadSector chsEndOffset = PhysicalDrive.LbaToChs((((partition.StartingOffset + partition.PartitionLength) / drive.Geometry.BytesPerSector) - 1), drive.Geometry);
-                summaryBuilder.AppendLine(string.Format("End Offset: {1}/{2}/{3} ({0} Bytes)", partition.StartingOffset + partition.PartitionLength, chsEndOffset.Cylinders, chsEndOffset.TracksPerCylinder, chsEndOffset.SectorsPerTrack));
+                summaryBuilder.AppendLine(string.Format("End Offset: {1} ({0} Bytes)", partition.StartingOffset + partition.PartitionLength, chsEndOffset));
                 summaryBuilder.AppendLine(string.Format("Hidden Sectors: {0}", partition.HiddenSectors));
                 summaryBuilder.AppendLine();
             }
@@ -128,9 +128,7 @@ namespace TestCrypt.Pages
             {
                 PhysicalDrive.CylinderHeadSector chsStartOffset = PhysicalDrive.LbaToChs(range.StartLba, drive.Geometry);
                 PhysicalDrive.CylinderHeadSector chsEndOffset = PhysicalDrive.LbaToChs(range.EndLba, drive.Geometry);
-                summaryBuilder.AppendLine(string.Format("{1}/{2}/{3} ({0} LBA) - {5}/{6}/{7} ({4} LBA)",
-                                                        range.StartLba, chsStartOffset.Cylinders, chsStartOffset.TracksPerCylinder, chsStartOffset.SectorsPerTrack,
-                                                        range.EndLba, chsEndOffset.Cylinders, chsEndOffset.TracksPerCylinder, chsEndOffset.SectorsPerTrack));   
+                summaryBuilder.AppendLine(string.Format("{1} ({0} LBA) - {3} ({2} LBA)", range.StartLba, chsStartOffset, range.EndLba, chsEndOffset));
             }
             summaryBuilder.AppendLine();
 
@@ -141,9 +139,7 @@ namespace TestCrypt.Pages
             {
                 PhysicalDrive.CylinderHeadSector chsStartOffset = PhysicalDrive.LbaToChs(range.StartLba, drive.Geometry);
                 PhysicalDrive.CylinderHeadSector chsEndOffset = PhysicalDrive.LbaToChs(range.EndLba, drive.Geometry);
-                summaryBuilder.AppendLine(string.Format("{1}/{2}/{3} ({0} LBA) - {5}/{6}/{7} ({4} LBA)", 
-                                                        range.StartLba, chsStartOffset.Cylinders, chsStartOffset.TracksPerCylinder, chsStartOffset.SectorsPerTrack,
-                                                        range.EndLba, chsEndOffset.Cylinders, chsEndOffset.TracksPerCylinder, chsEndOffset.SectorsPerTrack));   
+                summaryBuilder.AppendLine(string.Format("{1} ({0} LBA) - {3} ({2} LBA)", range.StartLba, chsStartOffset, range.EndLba, chsEndOffset));
             }
             
             // display the summary

@@ -195,7 +195,7 @@
             this.grpCustomAnalyzer.Controls.Add(this.dgvCustomAnalyzer);
             this.grpCustomAnalyzer.Location = new System.Drawing.Point(3, 131);
             this.grpCustomAnalyzer.Name = "grpCustomAnalyzer";
-            this.grpCustomAnalyzer.Size = new System.Drawing.Size(669, 199);
+            this.grpCustomAnalyzer.Size = new System.Drawing.Size(669, 202);
             this.grpCustomAnalyzer.TabIndex = 15;
             this.grpCustomAnalyzer.TabStop = false;
             this.grpCustomAnalyzer.Text = "Custom Analyzer";
@@ -211,7 +211,7 @@
             this.dgvCustomAnalyzer.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvCustomAnalyzer.Location = new System.Drawing.Point(3, 16);
             this.dgvCustomAnalyzer.Name = "dgvCustomAnalyzer";
-            this.dgvCustomAnalyzer.Size = new System.Drawing.Size(663, 180);
+            this.dgvCustomAnalyzer.Size = new System.Drawing.Size(663, 183);
             this.dgvCustomAnalyzer.TabIndex = 0;
             this.dgvCustomAnalyzer.RowValidating += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.dgvCustomAnalyzer_RowValidating);
             // 

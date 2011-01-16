@@ -26,6 +26,7 @@ namespace TestCrypt
             partitionTypes.Add(0x00U, "Unused");
             partitionTypes.Add(0x01U, "FAT12");
             partitionTypes.Add(0x04U, "FAT16 <32M");
+            partitionTypes.Add(0x05U, "Extended");
             partitionTypes.Add(0x06U, "FAT16 >32M");
             partitionTypes.Add(0x07U, "HPFS/NTFS");
             partitionTypes.Add(0x0AU, "OS/2 Boot Manager");

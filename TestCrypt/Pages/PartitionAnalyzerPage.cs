@@ -23,12 +23,44 @@ namespace TestCrypt.Pages
 
             this.context = context;
 
+            // assign the image list to the list view
+            lsvPartitions.SmallImageList = PrepareIconList();
+
             // this wizard page is always ready
             this.ready = true;
         }
         #endregion
 
         #region Methods
+        private ImageList PrepareIconList()
+        {
+            ImageList list = new ImageList();
+            foreach (DiskGraph.PartitionType type in Enum.GetValues(typeof(DiskGraph.PartitionType)))
+            {
+                // I know this is by far not the fastest way to fill the icons with content - but it is the fastest way
+                // to implement
+                Bitmap image = new Bitmap(16, 16, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+                Color color = DiskGraph.GetColor(type);
+                for (int x = 2; x < 14; x++)
+                {
+                    for (int y = 2; y < 14; y++)
+                    {
+                        if (x == 2 || y == 2 || x == 13 || y == 13)
+                        {
+                            image.SetPixel(x, y, Color.Black);
+                        }
+                        else
+                        {
+                            image.SetPixel(x, y, color);
+                        }
+                    }
+                }
+                list.Images.Add(image);
+            }
+
+            return list;
+        }
+		
         private void ResetBeginEndGroupBox()
         {
             grpBegin.Enabled = false;
@@ -98,6 +130,8 @@ namespace TestCrypt.Pages
                 context.PartitionEndAnalyzer.Clear();
             }
             volume = context.Drive.Volume;
+            dsgSelectedDisk.DriveInfo = context.Drive;
+            dsgSelectedDisk.SelectedPartitionNumber = 0;
 
             ResetBeginEndGroupBox();
             lsvPartitions.Items.Clear();
@@ -107,6 +141,27 @@ namespace TestCrypt.Pages
                 ListViewItem item = new ListViewItem(partition.PartitionNumber.ToString());
                 item.Tag = partition;
 
+                if (partition.PartitionType == 0x05U)
+                {
+                    item.ImageIndex = (int)DiskGraph.PartitionType.Extended;
+                }
+                else
+                {
+                    // detect whether the partition is primary or logical
+                    bool primary = true;
+                    for (int i = 0; i < context.Drive.Partitions.Count; i++)
+                    {
+                        if ((partition.StartingOffset > context.Drive.Partitions[i].StartingOffset) &&
+                            (partition.StartingOffset + partition.PartitionLength) <=
+                            (context.Drive.Partitions[i].StartingOffset + context.Drive.Partitions[i].PartitionLength))
+                        {
+                            primary = false;
+                            break;
+                        }
+                    }
+                    item.ImageIndex = (int)(primary ? DiskGraph.PartitionType.Primary : DiskGraph.PartitionType.Logical);
+                }
+                
                 PhysicalDrive.DISK_GEOMETRY geometry = context.Drive.Geometry;
                 PhysicalDrive.CylinderHeadSector chsStartOffset = PhysicalDrive.LbaToChs((partition.StartingOffset / geometry.BytesPerSector), geometry);
                 item.SubItems.Add(string.Format("{0}/{1}/{2}", chsStartOffset.Cylinders, chsStartOffset.TracksPerCylinder, chsStartOffset.SectorsPerTrack));
@@ -137,6 +192,7 @@ namespace TestCrypt.Pages
             if (lsvPartitions.SelectedItems.Count > 0)
             {
                 PhysicalDrive.PARTITION_INFORMATION partition = (PhysicalDrive.PARTITION_INFORMATION)lsvPartitions.SelectedItems[0].Tag;
+                dsgSelectedDisk.SelectedPartitionNumber = partition.PartitionNumber;
 
                 // prepare the "Begin of Partition" controls
                 PageContext.PartitionAnalyzer analyzer = null;
@@ -166,7 +222,7 @@ namespace TestCrypt.Pages
                     case PageContext.AnalyzeType.None:
                         optBeginNoAnalyze.Checked = true;
                         break;
-                }               
+                }
                 grpBegin.Enabled = true;
 
                 // prepare the "End of Partition" controls
@@ -199,7 +255,11 @@ namespace TestCrypt.Pages
                         break;
                 }
                 grpEnd.Enabled = true;
-            }      
+            }
+            else
+            {
+                dsgSelectedDisk.SelectedPartitionNumber = 0;
+            }
         }
 
         private void lsvPartitions_KeyUp(object sender, KeyEventArgs e)

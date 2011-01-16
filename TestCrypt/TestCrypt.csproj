@@ -79,6 +79,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DeviceApi.cs" />
+    <Compile Include="DiskGraph.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="DiskGraph.Designer.cs">
+      <DependentUpon>DiskGraph.cs</DependentUpon>
+    </Compile>
     <Compile Include="EtchedLine.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -132,6 +138,9 @@
     <Compile Include="PhysicalDrive.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="DiskGraph.resx">
+      <DependentUpon>DiskGraph.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FormMain.resx">
       <DependentUpon>FormMain.cs</DependentUpon>
     </EmbeddedResource>

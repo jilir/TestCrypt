@@ -182,7 +182,7 @@ namespace TestCrypt
         private void AddRange(List<ScanRange> rangeList, ScanRange range)
         {
             Int64 totalLba = drive.Size / drive.Geometry.BytesPerSector;
-            Int64 lastLbaForScan = totalLba - (TrueCrypt.TC_VOLUME_HEADER_SIZE / drive.Geometry.BytesPerSector);
+            Int64 lastLbaForScan = totalLba - (TrueCrypt.TC_VOLUME_HEADER_SIZE_LEGACY / drive.Geometry.BytesPerSector);
 
             // limit the start LBA to a valid LBA
             if (range.StartLba > lastLbaForScan)
