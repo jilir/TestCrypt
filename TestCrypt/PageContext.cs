@@ -107,6 +107,9 @@ namespace TestCrypt
 
         #region Attribute
         private string password;
+        private List<string> keyfiles;
+        private TrueCrypt.Password tcPassword;
+
         private PhysicalDrive.DriveInfo drive;
        
         private List<PartitionAnalyzer> partitionBeginAnalyzer;
@@ -125,6 +128,17 @@ namespace TestCrypt
         {
             get { return this.password; }
             set { this.password = value; }
+        }
+
+        public List<string> Keyfiles
+        {
+            get { return this.keyfiles; }
+        }
+
+        public TrueCrypt.Password TcPassword
+        {
+            get { return tcPassword; }
+            set { this.tcPassword = value; }
         }
 
         public PhysicalDrive.DriveInfo Drive
@@ -169,6 +183,7 @@ namespace TestCrypt
         #region Constructors
         public PageContext()
         {
+            this.keyfiles = new List<string>();
             this.partitionBeginAnalyzer = new List<PartitionAnalyzer>();
             this.partitionEndAnalyzer = new List<PartitionAnalyzer>();
             this.volumeBeginAnalyzer = new VolumeAnalyzer(AnalyzeType.None, 0);

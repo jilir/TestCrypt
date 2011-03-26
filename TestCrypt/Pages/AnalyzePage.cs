@@ -107,7 +107,7 @@ namespace TestCrypt.Pages
             byte[] data = new byte[SCAN_BUFFER_SIZE_IN_BYTES];
             List<PageContext.ScanRange> rangeList = context.GetOptimizedScanRanges();
             TrueCrypt.CRYPTO_INFO cryptoInfo = new TrueCrypt.CRYPTO_INFO();
-            TrueCrypt.Password password = new TrueCrypt.Password(context.Password);
+            TrueCrypt.Password password = context.TcPassword;
 
             // get the total number of sectors to analyze
             Int64 totalLbaCount = 0;

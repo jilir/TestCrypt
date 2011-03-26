@@ -180,6 +180,18 @@ namespace TestCrypt
         [DllImport("TrueCrypt.dll", CallingConvention = CallingConvention.StdCall)]
         public static extern bool EncryptionThreadPoolStart(int encryptionFreeCpuCount);
 
+        [DllImport("TrueCrypt.dll", CallingConvention = CallingConvention.StdCall)]
+        private static extern IntPtr KeyFileAdd(IntPtr firstKeyFile, IntPtr keyFile);
+
+        [DllImport("TrueCrypt.dll", CallingConvention = CallingConvention.StdCall)]
+        private static extern void KeyFileRemoveAll(ref IntPtr firstKeyFile);
+
+        [DllImport("TrueCrypt.dll", CallingConvention = CallingConvention.StdCall)]
+        private static extern IntPtr KeyFileClone(ref KeyFile keyFile);
+
+        [DllImport("TrueCrypt.dll", CallingConvention = CallingConvention.StdCall)]
+        private static extern bool KeyFilesApply(ref Password password, IntPtr firstKeyFile);
+
         [DllImport("Mpr.dll", CharSet = CharSet.Unicode)]
         private static extern int WNetGetConnection(string lpLocalName, IntPtr lpRemoteName, ref uint lpnLength);
 
@@ -576,9 +588,38 @@ namespace TestCrypt
             public ushort dbcv_flags;
         }
 
+        [StructLayout(LayoutKind.Sequential)]
+        private struct KeyFile
+        {
+            [MarshalAs(UnmanagedType.ByValTStr, SizeConst = TC_MAX_PATH)]
+            public string FileName;
+
+            private IntPtr Next;
+        }
         #endregion
 
         #region Methods
+        public static bool KeyFilesApply(ref Password password, IEnumerable<string> keyfiles)
+        {
+            // prepare a list in native memory with all keyfiles
+            KeyFile keyfileStruct = new KeyFile();
+            IntPtr firstKeyfilePtr = IntPtr.Zero;
+            foreach (string keyfile in keyfiles)
+            {
+                keyfileStruct.FileName = keyfile;
+                IntPtr keyfilePtr = KeyFileClone(ref keyfileStruct);
+                firstKeyfilePtr = KeyFileAdd(firstKeyfilePtr, keyfilePtr);
+            }
+
+            // apply the keyfiles to the password
+            bool retval = KeyFilesApply(ref password, firstKeyfilePtr);
+
+            // free the memory used by the keyfiles
+            KeyFileRemoveAll(ref firstKeyfilePtr);
+
+            return retval;
+        }
+
         /// <summary>
         /// Loads and starts the TestCrypt driver required to mount volumes.
         /// </summary>
@@ -710,7 +751,7 @@ namespace TestCrypt
             return -1;
         }
 
-        private static SafeFileHandle OpenDriver(out string errMessage)
+        public static SafeFileHandle OpenDriver(out string errMessage)
         {
             errMessage = null;
             SafeFileHandle hDriver = DeviceApi.CreateFile(WIN32_ROOT_PREFIX,

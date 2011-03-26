@@ -209,7 +209,7 @@ namespace TestCrypt.Pages
             long diskEndOffset = (useBackupHeader) ? headerInfo.BackupEnd : headerInfo.NormalEnd;
             long diskLength = diskEndOffset - diskStartOffset;
             string errMessage;
-            TrueCrypt.Password pwd = new TrueCrypt.Password(context.Password);
+            TrueCrypt.Password pwd = context.TcPassword;
             int dosDriveNo;
             if (TrueCrypt.Mount(pwd, useBackupHeader, out dosDriveNo, context.Drive.Volume, diskStartOffset, diskLength, out errMessage))
             {

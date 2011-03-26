@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 using TestCrypt.Pages;
+using Microsoft.Win32.SafeHandles;
 
 namespace TestCrypt
 {
@@ -167,9 +168,16 @@ namespace TestCrypt
             }
 
             // inform the user that some 64-bit operating systems are not supported due to driver signing
-            if (Wow.Is64BitOperatingSystem && Wow.IsOSAtLeast(Wow.OSVersion.WIN_VISTA))
+            string errMessage;
+            SafeFileHandle hDriver = TrueCrypt.OpenDriver(out errMessage);
+            if (null != errMessage)
             {
-                MessageBox.Show(this, "A 64-bit operating system which requires signed drivers (Windows® Vista or newer) has been detected. Mounting a volume is not supported and will fail unless you have signed the driver on your own.", Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                errMessage += " Mounting a volume will not work.";
+                if (Wow.Is64BitOperatingSystem && Wow.IsOSAtLeast(Wow.OSVersion.WIN_VISTA))
+                {
+                    errMessage += " A 64-bit operating system which requires signed drivers (Windows® Vista or newer) has been detected. Use the F8 boot option and select \"Disable Driver Signature Enforcement\" to temporarily allow the TestCrypt driver to be loaded.";
+                }
+                MessageBox.Show(this, errMessage, Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
 
