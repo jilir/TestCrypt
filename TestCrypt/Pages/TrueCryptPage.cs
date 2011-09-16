@@ -60,6 +60,32 @@ namespace TestCrypt.Pages
             CheckReady();
         }
 
+        private void chkUsLayout_CheckedChanged(object sender, EventArgs e)
+        {
+            if (chkUsLayout.Checked)
+            {
+                // select the US keyboard layout
+                foreach (InputLanguage lang in InputLanguage.InstalledInputLanguages)
+                {
+                    if (lang.LayoutName == "US")
+                    {
+                        InputLanguage.CurrentInputLanguage = lang;
+                        break;
+                    }
+                }
+                if (InputLanguage.CurrentInputLanguage.LayoutName != "US")
+                {
+                    MessageBox.Show("The \"US\" keyboard layout cannot be selected. Be aware that only input languages configured in the Windows® Control Panel can be used.", Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    chkUsLayout.Checked = false;
+                }
+            }
+            else
+            {
+                // select the default keyboard layout
+                InputLanguage.CurrentInputLanguage = InputLanguage.DefaultInputLanguage;
+            }
+        }
+
         private void lstKeyfiles_SelectedIndexChanged(object sender, EventArgs e)
         {
             UpdateKeyfileUi();
@@ -106,6 +132,25 @@ namespace TestCrypt.Pages
             UpdateKeyfileUi();
         }
 
+        private void TrueCryptPage_PageActivated(object sender, EventArgs e)
+        {
+            if (InputLanguage.DefaultInputLanguage.LayoutName == "US")
+            {
+                chkUsLayout.Enabled = false;
+                chkUsLayout.Checked = true;
+            }
+            else
+            {
+                chkUsLayout_CheckedChanged(sender, e);
+            }
+        }
+
+        private void TrueCryptPage_PageBack(object sender, PageTransitionEventArgs e)
+        {
+            // select the default keyboard layout
+            InputLanguage.CurrentInputLanguage = InputLanguage.DefaultInputLanguage;
+        }
+
         private void TrueCryptPage_PageNext(object sender, PageTransitionEventArgs e)
         {
             // check whether the password contains non-ASCII characters which cannot be used by TrueCrypt
@@ -123,11 +168,13 @@ namespace TestCrypt.Pages
                     messageBuilder.Append(Convert.ToChar(i));
                     messageBuilder.Append(' ');
                 }
+                messageBuilder.Append(Environment.NewLine + Environment.NewLine);
+                messageBuilder.Append("Do you really want to continue using this password?");
 
-                MessageBox.Show(this, messageBuilder.ToString(), Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                e.Cancel = true;
+                e.Cancel = (MessageBox.Show(this, messageBuilder.ToString(), Application.ProductName, MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.No);
             }
-            else
+            
+            if (!e.Cancel)
             {
                 // store the password
                 context.Password = txtPassword.Text;
@@ -150,6 +197,9 @@ namespace TestCrypt.Pages
                     }
                 }
                 context.TcPassword = password;
+
+                // select the default keyboard layout
+                InputLanguage.CurrentInputLanguage = InputLanguage.DefaultInputLanguage;
             }
         }
         #endregion

@@ -41,6 +41,7 @@
             this.btnAddFiles = new System.Windows.Forms.Button();
             this.btnAddPath = new System.Windows.Forms.Button();
             this.grpPassword = new System.Windows.Forms.GroupBox();
+            this.chkUsLayout = new System.Windows.Forms.CheckBox();
             this.grpKeyfiles = new System.Windows.Forms.GroupBox();
             this.grpPassword.SuspendLayout();
             this.grpKeyfiles.SuspendLayout();
@@ -180,6 +181,7 @@
             // 
             this.grpPassword.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
+            this.grpPassword.Controls.Add(this.chkUsLayout);
             this.grpPassword.Controls.Add(this.txtConfirm);
             this.grpPassword.Controls.Add(this.txtPassword);
             this.grpPassword.Controls.Add(this.lblConfirm);
@@ -192,6 +194,17 @@
             this.grpPassword.TabIndex = 21;
             this.grpPassword.TabStop = false;
             this.grpPassword.Text = "&Password";
+            // 
+            // chkUsLayout
+            // 
+            this.chkUsLayout.AutoSize = true;
+            this.chkUsLayout.Location = new System.Drawing.Point(191, 76);
+            this.chkUsLayout.Name = "chkUsLayout";
+            this.chkUsLayout.Size = new System.Drawing.Size(185, 17);
+            this.chkUsLayout.TabIndex = 15;
+            this.chkUsLayout.Text = "Use &US-Layout (set before typing)";
+            this.chkUsLayout.UseVisualStyleBackColor = true;
+            this.chkUsLayout.CheckedChanged += new System.EventHandler(this.chkUsLayout_CheckedChanged);
             // 
             // grpKeyfiles
             // 
@@ -221,7 +234,9 @@
             this.Size = new System.Drawing.Size(675, 333);
             this.Subtitle = "Configure the TrueCrypt properties of the volume";
             this.Title = "TrueCrypt Properties";
+            this.PageActivated += new System.EventHandler<System.EventArgs>(this.TrueCryptPage_PageActivated);
             this.PageNext += new System.EventHandler<TestCrypt.WizardPage.PageTransitionEventArgs>(this.TrueCryptPage_PageNext);
+            this.PageBack += new System.EventHandler<TestCrypt.WizardPage.PageTransitionEventArgs>(this.TrueCryptPage_PageBack);
             this.grpPassword.ResumeLayout(false);
             this.grpPassword.PerformLayout();
             this.grpKeyfiles.ResumeLayout(false);
@@ -246,6 +261,7 @@
         private System.Windows.Forms.Button btnAddPath;
         private System.Windows.Forms.GroupBox grpPassword;
         private System.Windows.Forms.GroupBox grpKeyfiles;
+        private System.Windows.Forms.CheckBox chkUsLayout;
 
     }
 }
