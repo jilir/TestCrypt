@@ -160,7 +160,7 @@ namespace TestCrypt.Pages
                     }
 
                     curLba++;
-                    curOffset += 512;
+                    curOffset += context.Drive.Geometry.BytesPerSector;
                     totalCurrentLba++;
                 }
             }
