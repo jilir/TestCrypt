@@ -10,13 +10,23 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>TestCrypt</RootNamespace>
     <AssemblyName>TestCrypt</AssemblyName>
-    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <ApplicationIcon>unlock.ico</ApplicationIcon>
+    <ApplicationIcon>
+    </ApplicationIcon>
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <SignManifests>false</SignManifests>
     <TargetZone>Internet</TargetZone>
     <GenerateManifests>false</GenerateManifests>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <StartupObject>TestCrypt.Program</StartupObject>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -31,14 +41,6 @@
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
-    <ApplicationManifest>app.manifest</ApplicationManifest>
-    <StartupObject>TestCrypt.Program</StartupObject>
-    <FileUpgradeFlags>
-    </FileUpgradeFlags>
-    <UpgradeBackupLocation>
-    </UpgradeBackupLocation>
-    <OldToolsVersion>3.5</OldToolsVersion>
-    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -48,6 +50,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -56,7 +59,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <PlatformTarget>x86</PlatformTarget>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <DebugSymbols>true</DebugSymbols>
@@ -65,6 +68,8 @@
     <DebugType>full</DebugType>
     <PlatformTarget>x86</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>false</Prefer32Bit>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <OutputPath>bin\x86\Release\</OutputPath>
@@ -73,12 +78,17 @@
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>x86</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Be.Windows.Forms.HexBox">
+      <HintPath>.\Be.Windows.Forms.HexBox.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Deployment" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Drawing.Design" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
   </ItemGroup>
@@ -96,24 +106,88 @@
     <Compile Include="EtchedLine.Designer.cs">
       <DependentUpon>EtchedLine.cs</DependentUpon>
     </Compile>
-    <Compile Include="PageContext.cs" />
-    <Compile Include="Pages\AnalyzePage.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Pages\AnalyzePage.Designer.cs">
-      <DependentUpon>AnalyzePage.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Pages\PartitionAnalyzerPage.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Pages\PartitionAnalyzerPage.Designer.cs">
-      <DependentUpon>PartitionAnalyzerPage.cs</DependentUpon>
-    </Compile>
-    <Compile Include="FormMain.cs">
+    <Compile Include="Forms\FormAbout.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FormMain.Designer.cs">
+    <Compile Include="Forms\FormAbout.Designer.cs">
+      <DependentUpon>FormAbout.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FormChsLbaConverter.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FormChsLbaConverter.Designer.cs">
+      <DependentUpon>FormChsLbaConverter.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FormProgress.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FormProgress.Designer.cs">
+      <DependentUpon>FormProgress.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FormSearch.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FormSearch.Designer.cs">
+      <DependentUpon>FormSearch.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FormTrueCrypt.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FormTrueCrypt.Designer.cs">
+      <DependentUpon>FormTrueCrypt.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LocalizedStrings.de.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>LocalizedStrings.de.resx</DependentUpon>
+    </Compile>
+    <Compile Include="LocalizedStrings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>LocalizedStrings.resx</DependentUpon>
+    </Compile>
+    <Compile Include="PageContext.cs" />
+    <Compile Include="Pages\PageFragment.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Pages\PageFragment.Designer.cs">
+      <DependentUpon>PageFragment.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\PageAnalyze.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Pages\PageAnalyze.Designer.cs">
+      <DependentUpon>PageAnalyze.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\PageDevice.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Pages\PageDevice.Designer.cs">
+      <DependentUpon>PageDevice.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\PageMain.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Pages\PageMain.Designer.cs">
+      <DependentUpon>PageMain.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\PageSearch.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Pages\PageSearch.Designer.cs">
+      <DependentUpon>PageSearch.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FormMain.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FormMain.Designer.cs">
       <DependentUpon>FormMain.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\PageEncryption.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Pages\PageEncryption.Designer.cs">
+      <DependentUpon>PageEncryption.cs</DependentUpon>
     </Compile>
     <Compile Include="Pages\ResultPage.cs">
       <SubType>UserControl</SubType>
@@ -121,23 +195,16 @@
     <Compile Include="Pages\ResultPage.Designer.cs">
       <DependentUpon>ResultPage.cs</DependentUpon>
     </Compile>
-    <Compile Include="Pages\SummaryPage.cs">
+    <Compile Include="Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\PageTrueCrypt.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Pages\SummaryPage.Designer.cs">
-      <DependentUpon>SummaryPage.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Pages\TrueCryptPage.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Pages\TrueCryptPage.Designer.cs">
-      <DependentUpon>TrueCryptPage.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Pages\VolumeAnalyzerPage.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Pages\VolumeAnalyzerPage.Designer.cs">
-      <DependentUpon>VolumeAnalyzerPage.cs</DependentUpon>
+    <Compile Include="Pages\PageTrueCrypt.Designer.cs">
+      <DependentUpon>PageTrueCrypt.cs</DependentUpon>
     </Compile>
     <Compile Include="PartitionTypes.cs" />
     <Compile Include="PhysicalDrive.cs" />
@@ -146,55 +213,129 @@
     <EmbeddedResource Include="DiskGraph.resx">
       <DependentUpon>DiskGraph.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FormMain.resx">
+    <EmbeddedResource Include="Forms\FormAbout.de.resx">
+      <DependentUpon>FormAbout.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FormAbout.resx">
+      <DependentUpon>FormAbout.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FormChsLbaConverter.resx">
+      <DependentUpon>FormChsLbaConverter.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FormMain.de.resx">
       <DependentUpon>FormMain.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Pages\AnalyzePage.resx">
-      <DependentUpon>AnalyzePage.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\FormMain.resx">
+      <DependentUpon>FormMain.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Pages\PartitionAnalyzerPage.resx">
-      <DependentUpon>PartitionAnalyzerPage.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\FormProgress.de.resx">
+      <DependentUpon>FormProgress.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FormProgress.resx">
+      <DependentUpon>FormProgress.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FormSearch.de.resx">
+      <DependentUpon>FormSearch.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FormSearch.resx">
+      <DependentUpon>FormSearch.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FormTrueCrypt.af.resx">
+      <DependentUpon>FormTrueCrypt.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FormTrueCrypt.de.resx">
+      <DependentUpon>FormTrueCrypt.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FormTrueCrypt.resx">
+      <DependentUpon>FormTrueCrypt.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LocalizedStrings.de.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>LocalizedStrings.de.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LocalizedStrings.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>LocalizedStrings.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pages\PageFragment.de.resx">
+      <DependentUpon>PageFragment.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pages\PageFragment.resx">
+      <DependentUpon>PageFragment.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pages\PageAnalyze.resx">
+      <DependentUpon>PageAnalyze.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pages\PageDevice.de.resx">
+      <DependentUpon>PageDevice.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pages\PageDevice.resx">
+      <DependentUpon>PageDevice.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pages\PageMain.de.resx">
+      <DependentUpon>PageMain.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pages\PageMain.resx">
+      <DependentUpon>PageMain.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pages\PageSearch.de.resx">
+      <DependentUpon>PageSearch.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pages\PageSearch.resx">
+      <DependentUpon>PageSearch.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pages\PageEncryption.de.resx">
+      <DependentUpon>PageEncryption.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pages\PageEncryption.resx">
+      <DependentUpon>PageEncryption.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Pages\ResultPage.resx">
       <DependentUpon>ResultPage.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Pages\SummaryPage.resx">
-      <DependentUpon>SummaryPage.cs</DependentUpon>
+    <EmbeddedResource Include="Pages\PageTrueCrypt.de.resx">
+      <DependentUpon>PageTrueCrypt.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Pages\TrueCryptPage.resx">
-      <DependentUpon>TrueCryptPage.cs</DependentUpon>
+    <EmbeddedResource Include="Pages\PageDisk.de.resx">
+      <DependentUpon>PageDisk.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Pages\VolumeAnalyzerPage.resx">
-      <DependentUpon>VolumeAnalyzerPage.cs</DependentUpon>
+    <EmbeddedResource Include="Pages\PageTrueCrypt.resx">
+      <DependentUpon>PageTrueCrypt.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
+      <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pages\PageDisk.resx">
+      <DependentUpon>PageDisk.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Pages\SelectVolumePage.resx">
-      <DependentUpon>SelectVolumePage.cs</DependentUpon>
-    </EmbeddedResource>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
-    </Compile>
     <None Include="app.config" />
+    <None Include="Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="Pages\SelectVolumePage.cs">
+    <Compile Include="Pages\PageDisk.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Pages\SelectVolumePage.Designer.cs">
-      <DependentUpon>SelectVolumePage.cs</DependentUpon>
+    <Compile Include="Pages\PageDisk.Designer.cs">
+      <DependentUpon>PageDisk.cs</DependentUpon>
     </Compile>
     <Compile Include="TrueCrypt.cs" />
     <Compile Include="WizardPage.cs">
@@ -209,22 +350,22 @@
     <None Include="app.manifest" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\speaker_stand_3.ico" />
+    <None Include="unlock.ico" />
     <None Include="testcrypt-x64.sys">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="testcrypt.sys">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="Resources\Unlock-icon.png" />
     <Content Include="TrueCrypt.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="unlock.ico" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
       <Visible>False</Visible>
-      <ProductName>.NET Framework Client Profile</ProductName>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
     <BootstrapperPackage Include="Microsoft.Net.Framework.2.0">

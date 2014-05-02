@@ -33,6 +33,7 @@ namespace TestCrypt
             partitionTypes.Add(0x0BU, "FAT32");
             partitionTypes.Add(0x0CU, "FAT32 LBA");
             partitionTypes.Add(0x0EU, "FAT16 LBA");
+            partitionTypes.Add(0x0FU, "Extended LBA");
             partitionTypes.Add(0x11U, "hid. FAT12");
             partitionTypes.Add(0x12U, "Compaq Diagnostics");
             partitionTypes.Add(0x14U, "hid. FAT16 <32M");

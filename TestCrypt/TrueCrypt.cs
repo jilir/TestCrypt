@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.IO;
 using Microsoft.Win32.SafeHandles;
+using System.ComponentModel;
 
 namespace TestCrypt
 {
@@ -267,6 +268,66 @@ namespace TestCrypt
         #endregion
 
         #region LocalTypes
+        public class TrueCryptException : Exception
+        {
+            #region Local Types
+            public enum ExceptionCause
+            {
+                DriverLoadFailed,
+                DriverOpenFailed,
+                DriverIoControlFailed,
+                NoDriveLetterAvailable
+            }
+            #endregion
+
+            #region Attributes
+            private ExceptionCause cause;
+            private int errorCode;
+            private string ioControl;
+            #endregion
+
+            #region Properties
+            public ExceptionCause Cause
+            {
+                get { return cause; }
+            }
+
+            public int ErrorCode
+            {
+                get { return errorCode; }
+            }
+
+            public string IoControl
+            {
+                get { return ioControl; }
+            }
+            #endregion
+
+            #region Constructors
+            public TrueCryptException(ExceptionCause cause, int errorCode, string ioControl, string message) :
+                base(message)
+            {
+                this.cause = cause;
+                this.errorCode = errorCode;
+                this.ioControl = ioControl;
+            }
+
+            public TrueCryptException(ExceptionCause cause, int errorCode, string message) :
+                this(cause, errorCode, null, message)
+            {
+            }
+
+            public TrueCryptException(ExceptionCause cause, string message) :
+                this(cause, 0, message)
+            {
+            }
+            public TrueCryptException(ExceptionCause cause) :
+                this(cause, null)
+            {
+            }
+            #endregion
+        }        
+
         [StructLayout(LayoutKind.Sequential)]
         public struct Password
         {
@@ -623,58 +684,76 @@ namespace TestCrypt
         /// <summary>
         /// Loads and starts the TestCrypt driver required to mount volumes.
         /// </summary>
-        /// <returns>True if the driver has been successfully loaded and started, otherwise false.</returns>
-        private static bool DriverLoad()
+        private static void LoadDriver()
         {
-            // try to locate the correct driver file (amd64 or i386) to load
-            FileInfo driverFile = new FileInfo(Wow.Is64BitOperatingSystem ? "testcrypt-x64.sys" : "testcrypt.sys");
-            if (!driverFile.Exists)
+            IntPtr hManager = IntPtr.Zero;
+            IntPtr hService = IntPtr.Zero;
+            try
             {
-                // the driver file is missing
-                return false;
-            }
-
-            // resolve a network driver path to a UNC path name in order to be able to load the driver
-            string driverFilePath = driverFile.FullName;
-            if (driverFilePath.Substring(1).StartsWith(":\\"))
-            {
-                uint length = TC_MAX_PATH * 2;
-                IntPtr pathPtr = Marshal.AllocHGlobal((int)length);
-                if (0 == WNetGetConnection(driverFilePath.Substring(0, 2), pathPtr, ref length))
+                // try to locate the correct driver file (amd64 or i386) to load
+                FileInfo driverFile = new FileInfo(Wow.Is64BitOperatingSystem ? "testcrypt-x64.sys" : "testcrypt.sys");
+                if (!driverFile.Exists)
                 {
-                    driverFilePath = string.Format("{0}{1}", Marshal.PtrToStringUni(pathPtr), driverFilePath.Substring(2));
+                    // the driver file is missing
+                    Win32Exception ex = new Win32Exception(2 /*ERROR_FILE_NOT_FOUND*/);
+                    throw new TrueCryptException(TrueCryptException.ExceptionCause.DriverLoadFailed, ex.ErrorCode, ex.Message);
                 }
-                Marshal.FreeHGlobal(pathPtr);
-            }
 
-            IntPtr hManager = OpenSCManager(null, null, SC_MANAGER_ALL_ACCESS);
-            if (hManager == IntPtr.Zero)
-            {
-                return false;
-            }
-            IntPtr hService = OpenService(hManager, "testcrypt", SERVICE_ALL_ACCESS);
-            if (hService != IntPtr.Zero)
-            {
-                // Remove stale service (driver is not loaded but service exists)
-                DeleteService(hService);
-                CloseServiceHandle(hService);
-                System.Threading.Thread.Sleep(500);
-            }
-            
-            hService = CreateService(hManager, "testcrypt", "testcrypt", SERVICE_ALL_ACCESS, SERVICE_KERNEL_DRIVER,
-                                     SERVICE_DEMAND_START, SERVICE_ERROR_NORMAL, driverFilePath, null, null, null,
-                                     null, null);
-            if (hService == IntPtr.Zero)
-            {
-                CloseServiceHandle(hManager);
-                return false;
-            }
+                // resolve a network driver path to a UNC path name in order to be able to load the driver
+                string driverFilePath = driverFile.FullName;
+                if (driverFilePath.Substring(1).StartsWith(":\\"))
+                {
+                    uint length = TC_MAX_PATH * 2;
+                    IntPtr pathPtr = Marshal.AllocHGlobal((int)length);
+                    if (0 == WNetGetConnection(driverFilePath.Substring(0, 2), pathPtr, ref length))
+                    {
+                        driverFilePath = string.Format("{0}{1}", Marshal.PtrToStringUni(pathPtr), driverFilePath.Substring(2));
+                    }
+                    Marshal.FreeHGlobal(pathPtr);
+                }
 
-            bool retval = StartService(hService, 0, null);
-            DeleteService(hService);
-            CloseServiceHandle(hManager);
-            CloseServiceHandle(hService);
-            return retval;
+                hManager = OpenSCManager(null, null, SC_MANAGER_ALL_ACCESS);
+                if (hManager == IntPtr.Zero)
+                {
+                    Win32Exception ex = new Win32Exception();
+                    throw new TrueCryptException(TrueCryptException.ExceptionCause.DriverLoadFailed, ex.ErrorCode, ex.Message);
+                }
+                hService = OpenService(hManager, "testcrypt", SERVICE_ALL_ACCESS);
+                if (hService != IntPtr.Zero)
+                {
+                    // Remove stale service (driver is not loaded but service exists)
+                    DeleteService(hService);
+                    CloseServiceHandle(hService);
+                    System.Threading.Thread.Sleep(500);
+                }
+
+                hService = CreateService(hManager, "testcrypt", "testcrypt", SERVICE_ALL_ACCESS, SERVICE_KERNEL_DRIVER,
+                                         SERVICE_DEMAND_START, SERVICE_ERROR_NORMAL, driverFilePath, null, null, null,
+                                         null, null);
+                if (hService == IntPtr.Zero)
+                {
+                    Win32Exception ex = new Win32Exception();
+                    throw new TrueCryptException(TrueCryptException.ExceptionCause.DriverLoadFailed, ex.ErrorCode, ex.Message); 
+                }
+
+                if (!StartService(hService, 0, null))
+                {
+                    Win32Exception ex = new Win32Exception();
+                    throw new TrueCryptException(TrueCryptException.ExceptionCause.DriverLoadFailed, ex.ErrorCode, ex.Message); 
+                }
+            }
+            finally
+            {
+                if (hManager != IntPtr.Zero)
+                {
+                    CloseServiceHandle(hManager);
+                }
+                if (hService != IntPtr.Zero)
+                {
+                    DeleteService(hService);
+                    CloseServiceHandle(hService);
+                }
+            }
         }
 
         /// <summary>
@@ -751,35 +830,29 @@ namespace TestCrypt
             return -1;
         }
 
-        public static SafeFileHandle OpenDriver(out string errMessage)
+        public static SafeFileHandle OpenDriver()
         {
-            errMessage = null;
             SafeFileHandle hDriver = DeviceApi.CreateFile(WIN32_ROOT_PREFIX,
-                                                         0,
-                                                         DeviceApi.FILE_SHARE_READ | DeviceApi.FILE_SHARE_WRITE,
-                                                         IntPtr.Zero,
-                                                         DeviceApi.OPEN_EXISTING,
-                                                         0,
-                                                         IntPtr.Zero);
+                                                          0,
+                                                          DeviceApi.FILE_SHARE_READ | DeviceApi.FILE_SHARE_WRITE,
+                                                          IntPtr.Zero,
+                                                          DeviceApi.OPEN_EXISTING,
+                                                          0,
+                                                          IntPtr.Zero);
             if (hDriver.IsInvalid)
             {
-                if (!DriverLoad())
+                LoadDriver();
+                hDriver = DeviceApi.CreateFile(WIN32_ROOT_PREFIX,
+                                               0,
+                                               DeviceApi.FILE_SHARE_READ | DeviceApi.FILE_SHARE_WRITE,
+                                               IntPtr.Zero,
+                                               DeviceApi.OPEN_EXISTING,
+                                               0,
+                                               IntPtr.Zero);
+                if (hDriver.IsInvalid)
                 {
-                    errMessage = "The TestCrypt driver could not be loaded.";
-                }
-                else
-                {
-                    hDriver = DeviceApi.CreateFile(WIN32_ROOT_PREFIX,
-                                                   0,
-                                                   DeviceApi.FILE_SHARE_READ | DeviceApi.FILE_SHARE_WRITE,
-                                                   IntPtr.Zero,
-                                                   DeviceApi.OPEN_EXISTING,
-                                                   0,
-                                                   IntPtr.Zero);
-                    if (hDriver.IsInvalid)
-                    {
-                        errMessage = "Unable to open the TestCrypt driver.";
-                    }
+                    Win32Exception ex = new Win32Exception();
+                    throw new TrueCryptException(TrueCryptException.ExceptionCause.DriverOpenFailed, ex.ErrorCode, ex.Message);
                 }
             }
 
@@ -791,23 +864,23 @@ namespace TestCrypt
         /// </summary>
         /// <param name="password">The password of the TrueCrypt volume.</param>
         /// <param name="useBackupHeader">True if the embedded backup header should be used to mount the volume, otherwise false.</param>
-        /// <param name="dosDriveNo">The drive letter (as number starting from 0 for "A:") which has been used to mount the volume.</param>
         /// <param name="deviceNo">The device which contains the TrueCrypt volume.</param>
         /// <param name="diskOffset">The start offset in bytes of the TrueCrypt volume on the devie.</param>
         /// <param name="diskLength">The length of the TrueCrypt volume in bytes.</param>
-        /// <param name="errMessage">The error message in case mounting the volume has failed.</param>
-        /// <returns></returns>
-        public static bool Mount(Password password, bool useBackupHeader, out int dosDriveNo, uint deviceNo, long diskOffset, long diskLength, out string errMessage)
+        /// <returns>The drive letter (as number starting from 0 for "A:") which has been used to mount the volume.</returns>
+        public static int Mount(Password password, bool useBackupHeader, uint deviceNo, long diskOffset, long diskLength)
         {
-            // try to get a available drive letter for the volume
-            dosDriveNo = GetFirstAvailableDrive();
-            if (-1 != dosDriveNo)
+            IntPtr mountPtr = IntPtr.Zero;
+            int dosDriveNo;
+
+            try
             {
-                // open/load the TestCrypt driver first
-                SafeFileHandle hDriver = OpenDriver(out errMessage);
-              
-                if (null == errMessage)
+                // try to get a available drive letter for the volume
+                dosDriveNo = GetFirstAvailableDrive();
+                if (-1 != dosDriveNo)
                 {
+                    // open/load the TestCrypt driver first
+                    SafeFileHandle hDriver = OpenDriver();
                     MOUNT_STRUCT mount = new MOUNT_STRUCT();
                     mount.VolumePassword = password;
                     mount.ProtectedHidVolPassword.Length = 0;
@@ -816,7 +889,7 @@ namespace TestCrypt
                     mount.DiskLength = diskLength;
                     mount.nDosDriveNo = dosDriveNo;
                     mount.UseBackupHeader = useBackupHeader;
-                    
+
                     // without enabling the mount manager, the mounted volume won't be visible
                     mount.bMountManager = true;
 
@@ -824,15 +897,15 @@ namespace TestCrypt
                     mount.bMountReadOnly = true;
 
                     uint result = 0;
-                    IntPtr mountPtr = Marshal.AllocHGlobal(Marshal.SizeOf(typeof(MOUNT_STRUCT)));
+                    mountPtr = Marshal.AllocHGlobal(Marshal.SizeOf(typeof(MOUNT_STRUCT)));
                     Marshal.StructureToPtr(mount, mountPtr, true);
                     if (DeviceApi.DeviceIoControl(hDriver, TC_IOCTL_MOUNT_VOLUME, mountPtr, (uint)Marshal.SizeOf(typeof(MOUNT_STRUCT)),
-                                                  mountPtr, (uint)Marshal.SizeOf(typeof(MOUNT_STRUCT)), ref result, IntPtr.Zero))
+                                                    mountPtr, (uint)Marshal.SizeOf(typeof(MOUNT_STRUCT)), ref result, IntPtr.Zero))
                     {
                         mount = (MOUNT_STRUCT)Marshal.PtrToStructure(mountPtr, typeof(MOUNT_STRUCT));
                         if (mount.nReturnCode != 0)
                         {
-                            errMessage = string.Format("\"DeviceIoControl\" API call using I/O-Control \"TC_IOCTL_MOUNT_VOLUME\" failed ({0}).", mount.nReturnCode);
+                            throw new TrueCryptException(TrueCryptException.ExceptionCause.DriverIoControlFailed, mount.nReturnCode, "TC_IOCTL_MOUNT_VOLUME", null);
                         }
                         else
                         {
@@ -842,44 +915,45 @@ namespace TestCrypt
                     }
                     else
                     {
-                        if (Marshal.GetLastWin32Error() == DeviceApi.ERROR_SHARING_VIOLATION)
-                        {
-                            errMessage = "The device is already in use.";
-                        }
-                        else
-                        {
-                            errMessage = "\"DeviceIoControl\" API call using I/O-Control \"TC_IOCTL_MOUNT_VOLUME\" failed.";
-                        }
+                        Win32Exception ex = new Win32Exception();
+                        throw new TrueCryptException(TrueCryptException.ExceptionCause.DriverIoControlFailed, ex.ErrorCode, "TC_IOCTL_MOUNT_VOLUME", ex.Message);
                     }
-                    Marshal.FreeHGlobal(mountPtr);
                     hDriver.Close();
                 }
+                else
+                {
+                    throw new TrueCryptException(TrueCryptException.ExceptionCause.NoDriveLetterAvailable);
+                }
             }
-            else
+            finally
             {
-                errMessage = "No drive letter available to mount the volume.";
+                if (mountPtr != IntPtr.Zero)
+                {
+                    Marshal.FreeHGlobal(mountPtr);
+                }
             }
 
-            return (errMessage == null);
+            return dosDriveNo;
         }
        
         /// <summary>
         /// Dismounts all volumes mounted by the TestCrypt driver.
         /// </summary>
-        /// <param name="errMessage">The error message in case dismounting all volumes has failed.</param>
-        /// <returns>True if all volumes have been dismounted, otherwise false.</returns>
-        public static bool DismountAll(out string errMessage)
+        public static void DismountAll()
         {
-            // open/load the TestCrypt driver first
-            SafeFileHandle hDriver = OpenDriver(out errMessage);
+            IntPtr mountListPtr = IntPtr.Zero;
+            IntPtr umountPtr = IntPtr.Zero;
 
-            if (null == errMessage)
+            try
             {
+                // open/load the TestCrypt driver first
+                SafeFileHandle hDriver = OpenDriver();
+
                 // retrieve a list of all volumes currently mounted by the TestCrypt driver
                 uint result = 0;
-                IntPtr mountListPtr = Marshal.AllocHGlobal(Marshal.SizeOf(typeof(MOUNT_LIST_STRUCT)));
+                mountListPtr = Marshal.AllocHGlobal(Marshal.SizeOf(typeof(MOUNT_LIST_STRUCT)));
                 if (DeviceApi.DeviceIoControl(hDriver, TC_IOCTL_GET_MOUNTED_VOLUMES, mountListPtr, (uint)Marshal.SizeOf(typeof(MOUNT_LIST_STRUCT)),
-                                              mountListPtr, (uint)Marshal.SizeOf(typeof(MOUNT_LIST_STRUCT)), ref result, IntPtr.Zero))
+                                                mountListPtr, (uint)Marshal.SizeOf(typeof(MOUNT_LIST_STRUCT)), ref result, IntPtr.Zero))
                 {
                     MOUNT_LIST_STRUCT mountList = (MOUNT_LIST_STRUCT)Marshal.PtrToStructure(mountListPtr, typeof(MOUNT_LIST_STRUCT));
                     if (mountList.ulMountedDrives != 0)
@@ -890,15 +964,15 @@ namespace TestCrypt
                         UMOUNT_STRUCT umount = new UMOUNT_STRUCT();
                         umount.ignoreOpenFiles = true;
 
-                        IntPtr umountPtr = Marshal.AllocHGlobal(Marshal.SizeOf(typeof(UMOUNT_STRUCT)));
+                        umountPtr = Marshal.AllocHGlobal(Marshal.SizeOf(typeof(UMOUNT_STRUCT)));
                         Marshal.StructureToPtr(umount, umountPtr, true);
                         if (DeviceApi.DeviceIoControl(hDriver, TC_IOCTL_DISMOUNT_ALL_VOLUMES, umountPtr, (uint)Marshal.SizeOf(typeof(UMOUNT_STRUCT)),
-                                                      umountPtr, (uint)Marshal.SizeOf(typeof(UMOUNT_STRUCT)), ref result, IntPtr.Zero))
+                                                        umountPtr, (uint)Marshal.SizeOf(typeof(UMOUNT_STRUCT)), ref result, IntPtr.Zero))
                         {
                             umount = (UMOUNT_STRUCT)Marshal.PtrToStructure(umountPtr, typeof(UMOUNT_STRUCT));
                             if (umount.nReturnCode != 0)
                             {
-                                errMessage = string.Format("\"DeviceIoControl\" API call using I/O-Control \"TC_IOCTL_DISMOUNT_ALL_VOLUMES\" failed ({0}).", umount.nReturnCode);
+                                throw new TrueCryptException(TrueCryptException.ExceptionCause.DriverIoControlFailed, umount.nReturnCode, "TC_IOCTL_DISMOUNT_ALL_VOLUMES", null);
                             }
                             else
                             {
@@ -908,9 +982,9 @@ namespace TestCrypt
                         }
                         else
                         {
-                            errMessage = "\"DeviceIoControl\" API call using I/O-Control \"TC_IOCTL_DISMOUNT_ALL_VOLUMES\" failed.";
+                            Win32Exception ex = new Win32Exception();
+                            throw new TrueCryptException(TrueCryptException.ExceptionCause.DriverIoControlFailed, ex.ErrorCode, "TC_IOCTL_DISMOUNT_ALL_VOLUMES", ex.Message);
                         }
-                        Marshal.FreeHGlobal(umountPtr);
                     }
                     else
                     {
@@ -919,14 +993,22 @@ namespace TestCrypt
                 }
                 else
                 {
-                    errMessage = "\"DeviceIoControl\" API call using I/O-Control \"TC_IOCTL_GET_MOUNTED_VOLUMES\" failed.";
+                    Win32Exception ex = new Win32Exception();
+                    throw new TrueCryptException(TrueCryptException.ExceptionCause.DriverIoControlFailed, ex.ErrorCode, "TC_IOCTL_GET_MOUNTED_VOLUMES", ex.Message);
                 }
-                Marshal.FreeHGlobal(mountListPtr);
-
                 hDriver.Close();
             }
-
-            return (errMessage == null);
+            finally
+            {
+                if (mountListPtr != IntPtr.Zero)
+                {
+                    Marshal.FreeHGlobal(mountListPtr);
+                }
+                if (umountPtr != IntPtr.Zero)
+                {
+                    Marshal.FreeHGlobal(umountPtr);
+                }
+            }
         }
         #endregion
     }

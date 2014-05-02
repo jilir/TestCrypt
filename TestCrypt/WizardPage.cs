@@ -21,35 +21,19 @@ namespace TestCrypt
         {
             #region Attributes
             /// <summary>
-            /// Stores a value indicating whether the event should be cancelled.
+            /// The wizard page that should be activated or null if the page transition shall be cancelled.
             /// </summary>
-            private bool cancel;
-
-            /// <summary>
-            /// The new page will be derived by incrementing (event PageNext) or decrementing (even PageBack) the 
-            /// current page of the wizard by this value.
-            /// </summary>
-            private uint pageCount;
+            private WizardPage page;
             #endregion
 
             #region Properties
             /// <summary>
-            /// Gets or sets a value indicating whether the event should be cancelled.
+            /// Gets or sets the wizard page that should be activated or null if the page transition shall be cancelled.
             /// </summary>
-            public bool Cancel
+            public WizardPage Page
             {
-                get { return this.cancel; }
-                set { this.cancel = value; }
-            }
-
-            /// <summary>
-            /// Gets or sets the value that will be used to derive the new page by incrementing (event PageNext) or
-            /// decrementing (even PageBack) the current page of the wizard by this value.
-            /// </summary>
-            public uint PageCount
-            {
-                get { return this.pageCount; }
-                set { this.pageCount = value; }
+                get { return this.page; }
+                set { this.page = value; }
             }
             #endregion
 
@@ -59,31 +43,9 @@ namespace TestCrypt
             /// </summary>
             public PageTransitionEventArgs()
             {
-                this.cancel = false;
-                this.pageCount = 1;
             }
             #endregion
         }
-
-        /// <summary>
-        /// Event which will be fired by the wizard pages whenever the property Ready has changed.
-        /// </summary>
-        public event EventHandler<EventArgs> ReadyChanged;
-
-        /// <summary>
-        /// Event which will be fired whenever the page has been activated and is displayed.
-        /// </summary>
-        public event EventHandler<EventArgs> PageActivated;
-
-        /// <summary>
-        /// Event which will be fired whenever the next button of the wizard page has been pressed.
-        /// </summary>
-        public event EventHandler<PageTransitionEventArgs> PageNext;
-
-        /// <summary>
-        /// Event which will be fired whenever the back button of the wizard page has been pressed.
-        /// </summary>
-        public event EventHandler<PageTransitionEventArgs> PageBack;
         #endregion
 
         #region Attributes
@@ -91,6 +53,17 @@ namespace TestCrypt
         /// Stores whether the wizard page is ready and the wizard may continue with the next page on user request.
         /// </summary>
         protected bool ready;
+
+        /// <summary>
+        /// Stores whether this is the first wizard page and the "back" button of the wizard shall be disabled.
+        /// </summary>
+        private bool firstPage;
+
+        /// <summary>
+        /// Stores whether this is the last wizard page and the wizard shall be terminated instead of continuing with
+        /// the next page on user request.
+        /// </summary>
+        private bool lastPage;
 
         /// <summary>
         /// The title of the application wizard page.
@@ -113,8 +86,26 @@ namespace TestCrypt
         }
 
         /// <summary>
+        /// Gets whether this is the first wizard page and the "back" button of the wizard shall be disabled.
+        /// </summary>
+        public bool FirstPage
+        {
+            get { return this.firstPage; }
+        }
+
+        /// <summary>
+        /// Gets whether this is the last wizard page and the wizard shall be terminated instead of continuing with the
+        /// next page on user request.
+        /// </summary>
+        public bool LastPage
+        {
+            get { return this.lastPage; }
+        }
+
+        /// <summary>
         /// Gets or sets the title of the application wizard page.
         /// </summary>
+        [Localizable(true)] 
         public string Title
         {
             get { return this.title; }
@@ -124,6 +115,7 @@ namespace TestCrypt
         /// <summary>
         /// Gets or sets the subtitle of the application wizard page.
         /// </summary>
+        [Localizable(true)] 
         public string Subtitle
         {
             get { return this.subtitle; }
@@ -135,10 +127,19 @@ namespace TestCrypt
         /// <summary>
         /// Constructor.
         /// </summary>
-        public WizardPage()
+        /// <param name="lastPage">True if this is the last wizard page and the wizard shall be terminated instead of 
+        /// continuing with the next page on user request.</param>
+        public WizardPage(bool firstPage, bool lastPage)
         {
+            this.firstPage = firstPage;
+            this.lastPage = lastPage;
             InitializeComponent();
         }
+
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        public WizardPage() : this(false, false) { }
         #endregion
 
         #region Methods
@@ -190,5 +191,28 @@ namespace TestCrypt
             }
         }
         #endregion
+
+        #region Events
+        /// <summary>
+        /// Event which will be fired by the wizard pages whenever the property Ready has changed.
+        /// </summary>
+        public event EventHandler<EventArgs> ReadyChanged;
+
+        /// <summary>
+        /// Event which will be fired whenever the page has been activated and is displayed.
+        /// </summary>
+        public event EventHandler<EventArgs> PageActivated;
+
+        /// <summary>
+        /// Event which will be fired whenever the next button of the wizard page has been pressed.
+        /// </summary>
+        public event EventHandler<PageTransitionEventArgs> PageNext;
+
+        /// <summary>
+        /// Event which will be fired whenever the back button of the wizard page has been pressed.
+        /// </summary>
+        public event EventHandler<PageTransitionEventArgs> PageBack;
+        #endregion
+
     }
 }
