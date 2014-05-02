@@ -1,64 +1,70 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Resources;
 using System.Text;
 
 namespace TestCrypt
 {
+    /// <summary>
+    /// Enumerates all supported modes of TestCrypt.
+    /// </summary>
+    public enum Mode
+    {
+        SearchQuick,
+        SearchDeep,
+        SearchAdvanced,
+        SearchFragment,
+        MountInPlace,
+        MountRescueDisk
+    }
+
+    /// <summary>
+    /// Class for a device to be analyzed by TestCrypt.
+    /// </summary>
+    public class Device
+    {
+        #region Properties
+        /// <summary>
+        /// Gets or sets the drive of the device.
+        /// </summary>
+        public PhysicalDrive.DriveInfo Drive { get; set; }
+
+        /// <summary>
+        /// Gets or sets the partition of the drive.
+        /// </summary>
+        public Nullable<uint> Partition { get; set; }
+        #endregion
+
+        #region Constructors
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        /// <param name="drive">The drive of the device.</param>
+        /// <param name="partition">The partition of the drive.</param>
+        public Device(PhysicalDrive.DriveInfo drive, uint partition)
+        {
+            this.Drive = drive;
+            this.Partition = partition;
+        }
+
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        /// <param name="drive">The drive of the device.</param>
+        public Device(PhysicalDrive.DriveInfo drive)
+        {
+            this.Drive = drive;
+            this.Partition = null;
+        }
+        #endregion
+    }
+
+    /// <summary>
+    /// Class containing the information shared between the different pages of the TestCrypt wizard.
+    /// </summary>
     public class PageContext
     {
         #region LocalTypes
-        public enum AnalyzeType
-        {
-            Automatic,
-            Manual,
-            None
-        };
-
-        /// <summary>
-        /// Class for the required analyzer parameters of a volume analyzer task.
-        /// </summary>
-        public class VolumeAnalyzer
-        {
-            #region Attributes
-            public AnalyzeType AnalyzerType;
-            public uint Sectors;
-            #endregion
-
-            #region Constructors
-            public VolumeAnalyzer(AnalyzeType analyzerType, uint sectors)
-            {
-                this.AnalyzerType = analyzerType;
-                this.Sectors = sectors;
-            }
-            #endregion
-        }
-
-        /// <summary>
-        /// Class for the required analyzer parameters of a partition analyzer task.
-        /// </summary>
-        public class PartitionAnalyzer
-        {
-            #region Attributes
-            /// <summary>
-            /// The number of the partition (1-based).
-            /// </summary>
-            public uint PartitionNumber;
-            public AnalyzeType AnalyzerType;
-            public uint SectorsBefore;
-            public uint SectorsAfter;
-            #endregion
-
-            #region Constructors
-            public PartitionAnalyzer(uint partitionNumber, AnalyzeType analyzerType, uint sectorsBefore, uint sectorsAfter)
-            {
-                this.PartitionNumber = partitionNumber;
-                this.AnalyzerType = analyzerType;
-                this.SectorsBefore = sectorsBefore;
-                this.SectorsAfter = sectorsAfter;
-            }
-            #endregion
-        }
-
         public class ScanRange
         {
             #region Attributes
@@ -106,74 +112,27 @@ namespace TestCrypt
         #endregion
 
         #region Attribute
-        private string password;
-        private List<string> keyfiles;
-        private TrueCrypt.Password tcPassword;
-
-        private PhysicalDrive.DriveInfo drive;
-       
-        private List<PartitionAnalyzer> partitionBeginAnalyzer;
-        private List<PartitionAnalyzer> partitionEndAnalyzer;
-
-        private VolumeAnalyzer volumeBeginAnalyzer;
-        private VolumeAnalyzer volumeEndAnalyzer;
-
-        private List<ScanRange> customAnalyzer;
-
+        private static PageContext context = new PageContext();
+        private ResourceManager resourceManager = new ResourceManager("TestCrypt.LocalizedStrings", typeof(TestCrypt.Forms.FormMain).Assembly);
         private List<Header> headerList;
         #endregion
 
         #region Properties
-        public string Password
-        {
-            get { return this.password; }
-            set { this.password = value; }
-        }
+        /// <summary>
+        /// Gets or sets The current mode of TestCrypt.
+        /// </summary>
+        public Mode Mode { get; set; }
 
-        public List<string> Keyfiles
-        {
-            get { return this.keyfiles; }
-        }
+        /// <summary>
+        /// Gets or sets the TrueCrypt password.
+        /// </summary>
+        public TrueCrypt.Password Password { get; set; }
 
-        public TrueCrypt.Password TcPassword
-        {
-            get { return tcPassword; }
-            set { this.tcPassword = value; }
-        }
-
-        public PhysicalDrive.DriveInfo Drive
-        {
-            get { return this.drive; }
-            set { this.drive = value; }
-        }
-
-        public List<PartitionAnalyzer> PartitionBeginAnalyzer
-        {
-            get { return this.partitionBeginAnalyzer; }
-        }
-
-        public List<PartitionAnalyzer> PartitionEndAnalyzer
-        {
-            get { return this.partitionEndAnalyzer; }
-        }
-
-        public VolumeAnalyzer VolumeBeginAnalyzer
-        {
-            get { return this.volumeBeginAnalyzer; }
-            set { this.volumeBeginAnalyzer = value; }
-        }
-
-        public VolumeAnalyzer VolumeEndAnalyzer
-        {
-            get { return this.volumeEndAnalyzer; }
-            set { this.volumeEndAnalyzer = value; }
-        }
-
-        public List<ScanRange> CustomAnalyzer
-        {
-            get { return this.customAnalyzer; }
-        }
-
+        /// <summary>
+        /// Gets or sets the currently selected device.
+        /// </summary>
+        public Device Device { get; set; }
+        
         public List<Header> HeaderList
         {
             get { return this.headerList; }
@@ -181,20 +140,33 @@ namespace TestCrypt
         #endregion
 
         #region Constructors
-        public PageContext()
+        private PageContext()
         {
-            this.keyfiles = new List<string>();
-            this.partitionBeginAnalyzer = new List<PartitionAnalyzer>();
-            this.partitionEndAnalyzer = new List<PartitionAnalyzer>();
-            this.volumeBeginAnalyzer = new VolumeAnalyzer(AnalyzeType.None, 0);
-            this.volumeEndAnalyzer = new VolumeAnalyzer(AnalyzeType.None, 0);
-            this.customAnalyzer = new List<ScanRange>();
             this.headerList = new List<Header>();
         }
         #endregion
 
         #region Methods
-        private void AddRange(List<ScanRange> rangeList, ScanRange range)
+        /// <summary>
+        /// Gets the instance of class (singleton).
+        /// </summary>
+        /// <returns>The instance of the class (singleton).</returns>
+        public static PageContext GetInstance()
+        {
+            return context;
+        }
+
+        /// <summary>
+        /// Returns the value of the string resource localized for the specified culture.
+        /// </summary>
+        /// <param name="name">The name of the resource to retrieve. </param>
+        /// <returns>The value of the resource localized for the specified culture, or null if name cannot be found in a resource set.</returns>
+        public string GetResourceString(string name)
+        {
+            return resourceManager.GetString(name).Replace(@"\n", Environment.NewLine);
+        }
+
+        /*private void AddRange(List<ScanRange> rangeList, ScanRange range)
         {
             Int64 totalLba = drive.Size / drive.Geometry.BytesPerSector;
             Int64 lastLbaForScan = totalLba - (TrueCrypt.TC_VOLUME_HEADER_SIZE_LEGACY / drive.Geometry.BytesPerSector);
@@ -358,7 +330,7 @@ namespace TestCrypt
             scanRanges.Sort(new AscendingScanRangeComparer());
 
             return scanRanges;
-        }
+        }*/
         #endregion
     }
 }

@@ -112,16 +112,82 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="unlock" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\unlock.ico;System.Drawing.Icon, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="chkBlowfishAes.Size" type="System.Drawing.Size, System.Drawing">
+    <value>135, 17</value>
   </data>
-  <data name="Unlock_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Unlock-icon.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="chkBlowfishAes.Text" xml:space="preserve">
+    <value>Blowfish/AES (veraltet)</value>
+  </data>
+  <data name="chkTripleDes.Size" type="System.Drawing.Size, System.Drawing">
+    <value>121, 17</value>
+  </data>
+  <data name="chkTripleDes.Text" xml:space="preserve">
+    <value>Triple DES (veraltet)</value>
+  </data>
+  <data name="chkCast.Size" type="System.Drawing.Size, System.Drawing">
+    <value>98, 17</value>
+  </data>
+  <data name="chkCast.Text" xml:space="preserve">
+    <value>CAST (veraltet)</value>
+  </data>
+  <data name="chkBlowfish.Size" type="System.Drawing.Size, System.Drawing">
+    <value>109, 17</value>
+  </data>
+  <data name="chkBlowfish.Text" xml:space="preserve">
+    <value>Blowfish (veraltet)</value>
+  </data>
+  <data name="chkSerpentBlowfishAes.Size" type="System.Drawing.Size, System.Drawing">
+    <value>177, 17</value>
+  </data>
+  <data name="chkSerpentBlowfishAes.Text" xml:space="preserve">
+    <value>Serpent/Blowfish/AES (veraltet)</value>
+  </data>
+  <data name="grpEncryptionAlgorithm.Text" xml:space="preserve">
+    <value>Verschlüsselungsalgorithmus</value>
+  </data>
+  <data name="chkOuterCbc.Size" type="System.Drawing.Size, System.Drawing">
+    <value>120, 17</value>
+  </data>
+  <data name="chkOuterCbc.Text" xml:space="preserve">
+    <value>Outer-CBC (veraltet)</value>
+  </data>
+  <data name="chkInnerCbc.Size" type="System.Drawing.Size, System.Drawing">
+    <value>118, 17</value>
+  </data>
+  <data name="chkInnerCbc.Text" xml:space="preserve">
+    <value>Inner-CBC (veraltet)</value>
+  </data>
+  <data name="chkCbc.Size" type="System.Drawing.Size, System.Drawing">
+    <value>91, 17</value>
+  </data>
+  <data name="chkCbc.Text" xml:space="preserve">
+    <value>CBC (veraltet)</value>
+  </data>
+  <data name="chkLrw.Size" type="System.Drawing.Size, System.Drawing">
+    <value>95, 17</value>
+  </data>
+  <data name="chkLrw.Text" xml:space="preserve">
+    <value>LRW (veraltet)</value>
+  </data>
+  <data name="grpMode.Text" xml:space="preserve">
+    <value>Modus</value>
+  </data>
+  <data name="chkSha1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>98, 17</value>
+  </data>
+  <data name="chkSha1.Text" xml:space="preserve">
+    <value>SHA1 (veraltet)</value>
+  </data>
+  <data name="$this.Subtitle" xml:space="preserve">
+    <value>Konfigurieren Sie das Verschlüsselungsverfahren des TrueCrypt-Volumes. Es sind keine Änderungen nötig, falls das TrueCrypt-Volume mit Standardeinstellungen in TrueCrypt 6.0 oder neuer erstellt wurde.</value>
+  </data>
+  <data name="$this.Title" xml:space="preserve">
+    <value>Verschlüsselungsverfahren</value>
   </data>
 </root>

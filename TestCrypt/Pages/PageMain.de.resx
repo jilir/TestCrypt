@@ -112,16 +112,52 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="unlock" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\unlock.ico;System.Drawing.Icon, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="optRescueDisk.Size" type="System.Drawing.Size, System.Drawing">
+    <value>488, 17</value>
   </data>
-  <data name="Unlock_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Unlock-icon.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="optRescueDisk.Text" xml:space="preserve">
+    <value>TrueCrypt-Volume einbinden, welches mit dem Rettungsdatenträger fehlerhaft entschlüsselt wurde.</value>
+  </data>
+  <data name="optSearchDeep.Size" type="System.Drawing.Size, System.Drawing">
+    <value>398, 17</value>
+  </data>
+  <data name="optSearchDeep.Text" xml:space="preserve">
+    <value>Gründliche Suche nach verlorenen TrueCrypt-Volumes (keine System-Partition).</value>
+  </data>
+  <data name="optSearchQuick.Size" type="System.Drawing.Size, System.Drawing">
+    <value>388, 17</value>
+  </data>
+  <data name="optSearchQuick.Text" xml:space="preserve">
+    <value>Schnelle Suche nach verlorenen TrueCrypt-Volumes (keine System-Partition).</value>
+  </data>
+  <data name="optSearchAdvanced.Size" type="System.Drawing.Size, System.Drawing">
+    <value>481, 17</value>
+  </data>
+  <data name="optSearchAdvanced.Text" xml:space="preserve">
+    <value>Suche nach verlorenen TrueCrypt-Volumes (keine System-Partition) mit erweiterten Einstellungen.</value>
+  </data>
+  <data name="otpSearchFragment.Size" type="System.Drawing.Size, System.Drawing">
+    <value>419, 17</value>
+  </data>
+  <data name="otpSearchFragment.Text" xml:space="preserve">
+    <value>Suche nach Datenfragementen in einem TrueCrypt-Volume (keine System-Partition).</value>
+  </data>
+  <data name="optMountInPlace.Size" type="System.Drawing.Size, System.Drawing">
+    <value>454, 17</value>
+  </data>
+  <data name="optMountInPlace.Text" xml:space="preserve">
+    <value>TrueCrypt-Volume einbinden, welches unvollständig mit der "in-place" Option erstellt wurde.</value>
+  </data>
+  <data name="$this.Subtitle" xml:space="preserve">
+    <value>Wählen Sie eine Option zum Wiederherstellen von Daten aus TrueCrypt-Volumes.</value>
+  </data>
+  <data name="$this.Title" xml:space="preserve">
+    <value>Art der Wiederherstellung</value>
   </data>
 </root>

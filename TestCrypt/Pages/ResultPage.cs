@@ -91,7 +91,7 @@ namespace TestCrypt.Pages
             /// </summary>
             public bool Supported
             {
-                get { return this.header.CryptoInfo.HeaderVersion >= 3; }
+                get { return this.header.CryptoInfo.HeaderVersion >= 2; }
             }
             #endregion
 
@@ -205,27 +205,27 @@ namespace TestCrypt.Pages
         /// <param name="useBackupHeader">True if the embedded backup header of the volume should be used, otherwise false.</param>
         private void Mount(HeaderInfo headerInfo, bool useBackupHeader)
         {
-            long diskStartOffset = (useBackupHeader) ? headerInfo.BackupStart : headerInfo.NormalStart;
+            /*long diskStartOffset = (useBackupHeader) ? headerInfo.BackupStart : headerInfo.NormalStart;
             long diskEndOffset = (useBackupHeader) ? headerInfo.BackupEnd : headerInfo.NormalEnd;
             long diskLength = diskEndOffset - diskStartOffset;
-            string errMessage;
-            TrueCrypt.Password pwd = context.TcPassword;
-            int dosDriveNo;
-            if (TrueCrypt.Mount(pwd, useBackupHeader, out dosDriveNo, context.Drive.Volume, diskStartOffset, diskLength, out errMessage))
+            TrueCrypt.Password pwd = context.Password;
+
+            try
             {
+                int dosDriveNo = TrueCrypt.Mount(pwd, useBackupHeader, context.Drive.DriveNumber, diskStartOffset, diskLength);
                 MessageBox.Show(this, string.Format("Successfully mounted the volume as drive \"{0}:\\\"", Char.ToString((char)('A' + dosDriveNo))), Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
-            else
+            catch (TrueCrypt.TrueCryptException ex)
             {
-                MessageBox.Show(this, string.Format("Unable to mount the volume: {0}", errMessage), Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+                MessageBox.Show(this, string.Format("Unable to mount the volume: {0}", ex.Message), Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }*/
         }
         #endregion
 
         #region Events
         private void ResultPage_PageActivated(object sender, EventArgs e)
         {
-            bool legacyHiddenVolumeHeader = false;
+            /*bool legacyHiddenVolumeHeader = false;
             lsvHeader.Items.Clear();
             foreach (PageContext.Header header in context.HeaderList)
             {
@@ -302,9 +302,25 @@ namespace TestCrypt.Pages
                         headerInfo.NormalEnd = headerInfo.NormalStart + (long)header.CryptoInfo.EncryptedAreaLength + TrueCrypt.TC_VOLUME_HEADER_SIZE_LEGACY;
                     }
                 }
+                else if (header.CryptoInfo.HeaderVersion == 2)
+                {
+                    if (header.CryptoInfo.hiddenVolume)
+                    {
+                        // hidden volume
+                        headerInfo.NormalEnd = (header.Lba * context.Drive.Geometry.BytesPerSector) + TrueCrypt.TC_HIDDEN_VOLUME_HEADER_OFFSET_LEGACY;
+                        // the start offset of the partition is not known
+                        legacyHiddenVolumeHeader = true;
+                    }
+                    else
+                    {
+                        // normal volume
+                        headerInfo.NormalStart = (header.Lba * context.Drive.Geometry.BytesPerSector);
+                        headerInfo.NormalEnd = context.Drive.Size - headerInfo.NormalStart;
+                    }
+                }
                 else
                 {
-                    // only TrueCrypt header version 3 and newer are supported
+                    // only TrueCrypt header version 2 and newer are supported
                 }
 
                 item.SubItems.Add(headerInfo.ToNormalHeaderString(context.Drive));
@@ -325,23 +341,23 @@ namespace TestCrypt.Pages
                                       "to be used to search for this header. There is almost no chance to get access to the volume if " +
                                       "this header is corrupted or normal volume password has been lost.", 
                                       Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
+            }*/
         }
 
         private void ResultPage_PageBack(object sender, PageTransitionEventArgs e)
         {
             if (MessageBox.Show(this, "If you continue the analyzer results will be cleared. Are you sure to continue?", Application.ProductName, MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
             {
-                e.Cancel = true;
+                //e.Cancel = true;
             }
 
             // skip the analyzer page when going back
-            e.PageCount = 2;
+            //e.PageCount = 2;
         }
 
         private void lsvHeader_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (lsvHeader.SelectedItems.Count == 0)
+            /*if (lsvHeader.SelectedItems.Count == 0)
             {
                 // no item selected
                 mnuMountAsNormalHeader.Enabled = false;
@@ -353,7 +369,7 @@ namespace TestCrypt.Pages
                 HeaderInfo headerInfo = (HeaderInfo)lsvHeader.SelectedItems[0].Tag;
                 mnuMountAsNormalHeader.Enabled = headerInfo.Supported && headerInfo.IsPossibleNormalHeader(context.Drive.Size);
                 mnuMountAsBackupHeader.Enabled = headerInfo.Supported && headerInfo.IsPossibleBackupHeader(context.Drive.Size);
-            }
+            }*/
         }
 
         private void mnuMountAsNormalHeader_Click(object sender, EventArgs e)
@@ -368,12 +384,14 @@ namespace TestCrypt.Pages
 
         private void mnuDismountAll_Click(object sender, EventArgs e)
         {
-            string errMessage;
-            if (!TrueCrypt.DismountAll(out errMessage))
+            try
             {
-                MessageBox.Show(this, string.Format("Unable to dismount all volumes: {0}", errMessage), Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                TrueCrypt.DismountAll();
             }
-
+            catch (TrueCrypt.TrueCryptException ex)
+            {
+                MessageBox.Show(this, string.Format("Unable to dismount all volumes: {0}", ex.Message), Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
         #endregion
 

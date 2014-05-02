@@ -112,16 +112,52 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="unlock" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\unlock.ico;System.Drawing.Icon, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="About" xml:space="preserve">
+    <value>About {0}</value>
+    <comment>{0} = Application.ProductName</comment>
   </data>
-  <data name="Unlock_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Unlock-icon.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="ApplyKeyfilesFailed" xml:space="preserve">
+    <value>An error has occurred applying the keyfiles.</value>
+  </data>
+  <data name="Disk" xml:space="preserve">
+    <value>Disk</value>
+  </data>
+  <data name="DriverSignatureEnforcement" xml:space="preserve">
+    <value>A 64-bit operating system which requires signed drivers has been detected. Click here to get further information.</value>
+  </data>
+  <data name="Exit" xml:space="preserve">
+    <value>Do you really want to exit TestCrypt?</value>
+  </data>
+  <data name="KeyboardLayoutNotAvailable" xml:space="preserve">
+    <value>The "US" keyboard layout cannot be selected. Be aware that only input languages configured in the Windows® Control Panel can be used.</value>
+  </data>
+  <data name="LanguageChanged" xml:space="preserve">
+    <value>The language change will take effect with the next start of TestCrypt.</value>
+  </data>
+  <data name="LoadTestCryptDriverFailed" xml:space="preserve">
+    <value>Loading the TestCrypt driver has failed with error code 0x{0:X8}: {1}.</value>
+    <comment>{0} = ErrorCode, {1} = Message</comment>
+  </data>
+  <data name="LoadTestCryptDriverFailedTitle" xml:space="preserve">
+    <value>Unable to load TestCrypt driver</value>
+  </data>
+  <data name="LoadTrueCryptDllFailed" xml:space="preserve">
+    <value>Unable to load the DLL-file "TrueCrypt.dll". This could be caused by a missing "Microsoft Visual C++ 2010 Redistributable Package (x86)".</value>
+  </data>
+  <data name="OpenTestCryptDriverFailed" xml:space="preserve">
+    <value>Opening the TestCrypt driver has failed with error code 0x{0:X8}: {1}.</value>
+    <comment>{0} = ErrorCode, {1} = Message</comment>
+  </data>
+  <data name="PageBackWarning" xml:space="preserve">
+    <value>The current settings will be lost. Do you really want to return to previous view?</value>
+  </data>
+  <data name="PasswordWithInvalidCharacter" xml:space="preserve">
+    <value>The password you have entered contains the following character(s) which cannot be stored using ASCII encoding: {0}. A TrueCrypt volume cannot be created using this password using a current version of TrueCrypt.\n\nDo you really want to continue using this password?</value>
+    <comment>{0} = Invalid Characters</comment>
   </data>
 </root>
