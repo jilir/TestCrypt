@@ -2,12 +2,18 @@
 using System.Runtime.InteropServices;
 using System.Collections.Generic;
 using Microsoft.Win32.SafeHandles;
+using System.Text;
 
 namespace TestCrypt
 {
     static class DeviceApi
     {
         #region Constants
+        /// <summary>
+        /// The maximum length of a path in characters.
+        /// </summary>
+        public const uint MAX_PATH = 260;
+
         /// <summary>
         /// Read, write, and execute access.
         /// </summary>
@@ -166,6 +172,11 @@ namespace TestCrypt
         public const uint FILE_ATTRIBUTE_ENCRYPTED = 0x00004000U;
 
         public const int ERROR_SHARING_VIOLATION   = 32;
+
+        /// <summary>
+        /// Constant for invalid handle value.
+        /// </summary>
+        public static IntPtr INVALID_HANDLE_VALUE { get { return new IntPtr(-1); } }
         #endregion
 
         #region P/Invoke
@@ -189,13 +200,13 @@ namespace TestCrypt
         /// </returns>
         [DllImport("kernel32.dll", CharSet = CharSet.Auto, CallingConvention = CallingConvention.StdCall, SetLastError = true)]
         public static extern SafeFileHandle CreateFile(
-              string lpFileName,
-              uint dwDesiredAccess,
-              uint dwShareMode,
-              IntPtr SecurityAttributes,
-              uint dwCreationDisposition,
-              uint dwFlagsAndAttributes,
-              IntPtr hTemplateFile);
+            string lpFileName,
+            uint dwDesiredAccess,
+            uint dwShareMode,
+            IntPtr SecurityAttributes,
+            uint dwCreationDisposition,
+            uint dwFlagsAndAttributes,
+            IntPtr hTemplateFile);
 
         /// <summary>
         /// Sends a control code directly to a specified device driver, causing the corresponding device to perform the corresponding operation.
@@ -211,29 +222,153 @@ namespace TestCrypt
         /// <returns></returns>
         [DllImport("kernel32.dll", SetLastError = true)]
         public static extern bool DeviceIoControl(
-              SafeHandle hDevice,
-              uint dwIoControlCode,
-              IntPtr lpInBuffer,           
-              uint nInBufferSize,
-              [Out] IntPtr lpOutBuffer,
-              uint nOutBufferSize,
-              ref uint lpBytesReturned,
-              IntPtr lpOverlapped);
+            SafeHandle hDevice,
+            uint dwIoControlCode,
+            IntPtr lpInBuffer,           
+            uint nInBufferSize,
+            [Out] IntPtr lpOutBuffer,
+            uint nOutBufferSize,
+            ref uint lpBytesReturned,
+            IntPtr lpOverlapped);
 
         [DllImport("Kernel32.dll", SetLastError = true, CharSet = CharSet.Auto)]
         public static extern bool SetFilePointerEx(
-              SafeFileHandle hFile,
-              Int64  liDistanceToMove,
-              IntPtr lpNewFilePointer,
-              EMoveMethod dwMoveMethod);
+            SafeFileHandle hFile,
+            Int64  liDistanceToMove,
+            IntPtr lpNewFilePointer,
+            EMoveMethod dwMoveMethod);
 
         [DllImport("kernel32.dll", SetLastError = true)]
         public static extern bool ReadFile(
-              SafeFileHandle hFile,
-              byte[] lpBuffer,
-              uint nNumberOfBytesToRead,
-              out uint lpNumberOfBytesRead,
-              IntPtr lpOverlapped);
+            SafeFileHandle hFile,
+            byte[] lpBuffer,
+            uint nNumberOfBytesToRead,
+            out uint lpNumberOfBytesRead,
+            IntPtr lpOverlapped);
+
+        /// <summary>
+        /// Retrieves the name of a volume on a computer. FindFirstVolume is used to begin scanning the volumes of a 
+        /// computer.
+        /// </summary>
+        /// <param name="lpszVolumeName">A pointer to a buffer that receives a null-terminated string that specifies a
+        /// volume GUID path for the first volume that is found.</param>
+        /// <param name="cchBufferLength">The length of the buffer to receive the volume GUID path, in TCHARs.</param>
+        /// <returns>If the function succeeds, the return value is a search handle used in a subsequent call to the 
+        /// FindNextVolume and FindVolumeClose functions.
+        ///
+        /// If the function fails to find any volumes, the return value is the INVALID_HANDLE_VALUE error code. To get
+        /// extended error information, call GetLastError.</returns>
+        [DllImport("kernel32.dll", SetLastError = true, CharSet = CharSet.Auto)]
+        public static extern IntPtr FindFirstVolume(
+            [MarshalAs(UnmanagedType.LPTStr)] StringBuilder lpszVolumeName, 
+            uint cchBufferLength);
+
+        /// <summary>
+        /// Continues a volume search started by a call to the FindFirstVolume function. FindNextVolume finds one volume per call.
+        /// </summary>
+        /// <param name="hFindVolume">The volume search handle returned by a previous call to the FindFirstVolume function.</param>
+        /// <param name="lpszVolumeName">A pointer to a string that receives the volume GUID path that is found.</param>
+        /// <param name="cchBufferLength">The length of the buffer that receives the volume GUID path, in TCHARs.</param>
+        /// <returns>If the function succeeds, the return value is nonzero.
+        /// 
+        /// If the function fails, the return value is zero. To get extended error information, call GetLastError. If
+        /// no matching files can be found, the GetLastError function returns the ERROR_NO_MORE_FILES error code. In 
+        /// that case, close the search with the FindVolumeClose function.</returns>
+        [DllImport("kernel32.dll", SetLastError = true, CharSet = CharSet.Auto)]
+        public static extern bool FindNextVolume(
+            IntPtr hFindVolume, 
+            [MarshalAs(UnmanagedType.LPTStr)] StringBuilder lpszVolumeName, 
+            uint cchBufferLength);
+
+        /// <summary>
+        /// Closes the specified volume search handle. The FindFirstVolume and FindNextVolume functions use this search
+        /// handle to locate volumes.
+        /// </summary>
+        /// <param name="hFindVolume">The volume search handle to be closed. This handle must have been previously 
+        /// opened by the FindFirstVolume function.</param>
+        /// <returns>If the function succeeds, the return value is nonzero.
+        ///
+        /// If the function fails, the return value is zero. To get extended error information, call GetLastError.</returns>
+        [DllImport("kernel32.dll", SetLastError = true, CharSet = CharSet.Auto)]
+        public static extern bool FindVolumeClose(IntPtr hFindVolume);
+
+        /// <summary>
+        /// Retrieves information about the file system and volume associated with the specified root directory.
+        /// </summary>
+        /// <param name="lpRootPathName">A pointer to a string that contains the root directory of the volume to be 
+        /// described.
+        ///
+        /// If this parameter is NULL, the root of the current directory is used. A trailing backslash is required. For
+        /// example, you specify \\MyServer\MyShare as "\\MyServer\MyShare\", or the C drive as "C:\".</param>
+        /// <param name="lpVolumeNameBuffer">A pointer to a buffer that receives the name of a specified volume. The 
+        /// buffer size is specified by the nVolumeNameSize parameter.</param>
+        /// <param name="nVolumeNameSize">The length of a volume name buffer, in TCHARs. The maximum buffer size is 
+        /// MAX_PATH+1.
+        /// 
+        /// This parameter is ignored if the volume name buffer is not supplied.</param>
+        /// <param name="lpVolumeSerialNumber">A pointer to a variable that receives the volume serial number.
+        /// 
+        /// This function returns the volume serial number that the operating system assigns when a hard disk is 
+        /// formatted. To programmatically obtain the hard disk's serial number that the manufacturer assigns, use the
+        /// Windows Management Instrumentation (WMI) Win32_PhysicalMedia property SerialNumber.</param>
+        /// <param name="lpMaximumComponentLength">A pointer to a variable that receives the maximum length, in TCHARs,
+        /// of a file name component that a specified file system supports.
+        /// 
+        /// A file name component is the portion of a file name between backslashes.
+        /// 
+        /// The value that is stored in the variable that *lpMaximumComponentLength points to is used to indicate that
+        /// a specified file system supports long names. For example, for a FAT file system that supports long names, 
+        /// the function stores the value 255, rather than the previous 8.3 indicator. Long names can also be supported
+        /// on systems that use the NTFS file system.</param>
+        /// <param name="lpFileSystemFlags">A pointer to a variable that receives flags associated with the specified 
+        /// file system.</param>
+        /// <param name="lpFileSystemNameBuffer">A pointer to a buffer that receives the name of the file system, for 
+        /// example, the FAT file system or the NTFS file system. The buffer size is specified by the 
+        /// nFileSystemNameSize parameter.</param>
+        /// <param name="nFileSystemNameSize">The length of the file system name buffer, in TCHARs. The maximum buffer 
+        /// size is MAX_PATH+1.
+        /// 
+        /// This parameter is ignored if the file system name buffer is not supplied.</param>
+        /// <returns>If all the requested information is retrieved, the return value is nonzero.
+        /// 
+        /// If not all the requested information is retrieved, the return value is zero. To get extended error 
+        /// information, call GetLastError.</returns>
+        [DllImport("kernel32.dll", SetLastError = true, CharSet = CharSet.Auto)]
+        public static extern bool GetVolumeInformation(
+            string lpRootPathName,
+            [MarshalAs(UnmanagedType.LPTStr)] StringBuilder lpVolumeNameBuffer,
+            uint nVolumeNameSize,
+            ref uint lpVolumeSerialNumber,
+            ref uint lpMaximumComponentLength,
+            ref uint lpFileSystemFlags,
+            [MarshalAs(UnmanagedType.LPTStr)] StringBuilder lpFileSystemNameBuffer,
+            uint nFileSystemNameSize);
+
+        /// <summary>
+        /// Retrieves a list of drive letters and mounted folder paths for the specified volume.
+        /// </summary>
+        /// <param name="lpszVolumeName">A volume GUID path for the volume. A volume GUID path is of the form 
+        /// "\\?\Volume{xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx}\".</param>
+        /// <param name="lpszVolumePathNames">A pointer to a buffer that receives the list of drive letters and mounted
+        /// folder paths. The list is an array of null-terminated strings terminated by an additional NULL character. 
+        /// If the buffer is not large enough to hold the complete list, the buffer holds as much of the list as 
+        /// possible.</param>
+        /// <param name="cchBufferLength">The length of the lpszVolumePathNames buffer, in TCHARs, including all NULL 
+        /// characters.</param>
+        /// <param name="lpcchReturnLength">If the call is successful, this parameter is the number of TCHARs copied to 
+        /// the lpszVolumePathNames buffer. Otherwise, this parameter is the size of the buffer required to hold the 
+        /// complete list, in TCHARs.</param>
+        /// <returns>If the function succeeds, the return value is nonzero.
+        /// 
+        /// If the function fails, the return value is zero. To get extended error information, call GetLastError. If 
+        /// the buffer is not large enough to hold the complete list, the error code is ERROR_MORE_DATA and the 
+        /// lpcchReturnLength parameter receives the required buffer size.</returns>
+        [DllImport("kernel32.dll", SetLastError = true, CharSet = CharSet.Auto)]
+        public static extern bool GetVolumePathNamesForVolumeName(
+            string lpszVolumeName,
+            [MarshalAs(UnmanagedType.LPTStr)] StringBuilder lpszVolumePathNames,
+            uint cchBufferLength,
+            out uint lpcchReturnLength);
         #endregion
 
         #region Local Types

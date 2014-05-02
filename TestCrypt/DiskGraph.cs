@@ -63,7 +63,7 @@ namespace TestCrypt
             return partitionTypeColors[(int)partitionType];
         }
 
-        private void PaintPartition(PaintEventArgs e, Rectangle rectPartition, PhysicalDrive.PARTITION_INFORMATION partition, PartitionType partitionType)
+        private void PaintPartition(PaintEventArgs e, Rectangle rectPartition, PhysicalDrive.PARTITION_INFORMATION_EX partition, PartitionType partitionType)
         {
             // ensure that a primary or logical partition should be drawn
             System.Diagnostics.Debug.Assert(partitionType != PartitionType.Extended);
@@ -103,7 +103,7 @@ namespace TestCrypt
             //e.Graphics.TextRenderingHint = System.Drawing.Text.TextRenderingHint.AntiAlias;
             Font font = new Font(new FontFamily("Arial"), 9, FontStyle.Regular);
             e.Graphics.DrawString(string.Format("[{0}]", partition.PartitionNumber), font, new SolidBrush(Color.White), rectInner.Left, rectInner.Top);
-            string type = PartitionTypes.GetPartitionType(partition.PartitionType);
+            string type = PartitionTypes.GetPartitionType(partition.Mbr.PartitionType);
             if (type == null)
             {
                 type = "Unknown";
@@ -148,7 +148,7 @@ namespace TestCrypt
                                                       (int)((driveInfo.Partitions[partition].PartitionLength / (double)driveInfo.Size) * ClientRectangle.Width),
                                                       ClientRectangle.Height);
                 curOffset = driveInfo.Partitions[partition].StartingOffset + driveInfo.Partitions[partition].PartitionLength;
-                if ((driveInfo.Partitions[partition].PartitionType != 0x05U))
+                if ((driveInfo.Partitions[partition].Mbr.PartitionType != 0x05U))
                 {
                     rectPrimary.Inflate(-1, -3);
                     PaintPartition(e, rectPrimary, driveInfo.Partitions[partition], PartitionType.Primary);
@@ -168,7 +168,7 @@ namespace TestCrypt
                     rectInner.Inflate(-(int)Math.Ceiling(penPartition.Width / 2), -(int)Math.Ceiling(penPartition.Width / 2));
 
                     // draw all logical partitions within the extended partition
-                    PhysicalDrive.PARTITION_INFORMATION extended = driveInfo.Partitions[partition];
+                    PhysicalDrive.PARTITION_INFORMATION_EX extended = driveInfo.Partitions[partition];
                     long curLogicalOffset = driveInfo.Partitions[partition].StartingOffset + 1;
                     for (int j = 0; j < driveInfo.Partitions.Count; j++)
                     {
@@ -176,7 +176,7 @@ namespace TestCrypt
                         minOffset = long.MaxValue;
                         for (int k = 0; k < driveInfo.Partitions.Count; k++)
                         {
-                            if ((driveInfo.Partitions[k].PartitionType != 0x05) &&
+                            if ((driveInfo.Partitions[k].Mbr.PartitionType != 0x05) &&
                                 (driveInfo.Partitions[k].StartingOffset >= curLogicalOffset) &&
                                 (driveInfo.Partitions[k].StartingOffset < minOffset))
                             {
