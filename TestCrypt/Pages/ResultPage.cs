@@ -394,31 +394,5 @@ namespace TestCrypt.Pages
             }
         }
         #endregion
-
-        private void mnuCopyTo_Click(object sender, EventArgs e)
-        {
-            SaveFileDialog dlg = new SaveFileDialog();
-            if (dlg.ShowDialog() == DialogResult.OK)
-            {
-                byte[] buffer = new byte[1024 * 1024];
-                using (System.IO.FileStream fs = new System.IO.FileStream(dlg.FileName, System.IO.FileMode.Create, System.IO.FileAccess.Write, System.IO.FileShare.Read))
-                {
-                    try
-                    {
-                        long addr = ((HeaderInfo)lsvHeader.SelectedItems[0].Tag).NormalStart;
-                        while (addr < context.Drive.Size)
-                        {
-                            PhysicalDrive.Read(context.Drive.Volume, addr, (uint)buffer.Length, buffer);
-                            fs.Write(buffer, 0, buffer.Length);
-                            addr += buffer.Length;
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show(ex.Message);
-                    }
-                }
-            }
-        }
     }
 }
