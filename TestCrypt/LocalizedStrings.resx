@@ -133,6 +133,39 @@
   <data name="Exit" xml:space="preserve">
     <value>Do you really want to exit TestCrypt?</value>
   </data>
+  <data name="HeaderPropertyEncryptedAreaOffset" xml:space="preserve">
+    <value>Offset (in bytes)</value>
+  </data>
+  <data name="HeaderPropertyEncryptionAlgorithm" xml:space="preserve">
+    <value>Encryption Alogrithm</value>
+  </data>
+  <data name="HeaderPropertyHeaderVersion" xml:space="preserve">
+    <value>Header Version</value>
+  </data>
+  <data name="HeaderPropertyOperationMode" xml:space="preserve">
+    <value>Operation Mode</value>
+  </data>
+  <data name="HeaderPropertyPkcs5Prf" xml:space="preserve">
+    <value>PKCS#5 PRF</value>
+  </data>
+  <data name="HeaderPropertyRequiredTrueCryptVersion" xml:space="preserve">
+    <value>Required TrueCrypt Version</value>
+  </data>
+  <data name="HeaderPropertySectorSize" xml:space="preserve">
+    <value>Sector Size (in bytes)</value>
+  </data>
+  <data name="HeaderPropertySize" xml:space="preserve">
+    <value>Size (in bytes)</value>
+  </data>
+  <data name="HeaderPropertyType" xml:space="preserve">
+    <value>Type</value>
+  </data>
+  <data name="HeaderPropertyTypeHidden" xml:space="preserve">
+    <value>Hidden</value>
+  </data>
+  <data name="HeaderPropertyTypeNormal" xml:space="preserve">
+    <value>Normal</value>
+  </data>
   <data name="KeyboardLayoutNotAvailable" xml:space="preserve">
     <value>The "US" keyboard layout cannot be selected. Be aware that only input languages configured in the Windows® Control Panel can be used.</value>
   </data>
@@ -147,7 +180,7 @@
     <value>Unable to load TestCrypt driver</value>
   </data>
   <data name="LoadTrueCryptDllFailed" xml:space="preserve">
-    <value>Unable to load the DLL-file "TrueCrypt.dll". This could be caused by a missing "Microsoft Visual C++ 2010 Redistributable Package (x86)".</value>
+    <value>Unable to load the DLL-file "TrueCrypt.dll" or "TrueCrypt-x64.dll".</value>
   </data>
   <data name="OpenTestCryptDriverFailed" xml:space="preserve">
     <value>Opening the TestCrypt driver has failed with error code 0x{0:X8}: {1}.</value>
@@ -155,6 +188,9 @@
   </data>
   <data name="PageBackWarning" xml:space="preserve">
     <value>The current settings will be lost. Do you really want to return to previous view?</value>
+  </data>
+  <data name="PasswordIncorrect" xml:space="preserve">
+    <value>Incorrect password or not a TrueCrypt header.</value>
   </data>
   <data name="PasswordWithInvalidCharacter" xml:space="preserve">
     <value>The password you have entered contains the following character(s) which cannot be stored using ASCII encoding: {0}. A TrueCrypt volume cannot be created using this password using a current version of TrueCrypt.\n\nDo you really want to continue using this password?</value>

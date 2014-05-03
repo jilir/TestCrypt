@@ -212,13 +212,18 @@ namespace TestCrypt.Forms
             // "TrueCrypt.dll" and therefore an exception may occur when the library cannot be loaded
             try
             {
-                //TrueCrypt.EncryptionThreadPoolStart(Environment.ProcessorCount);
+                TrueCrypt.EncryptionThreadPoolStart(Environment.ProcessorCount);
             }
-            catch (DllNotFoundException)
+            catch (Exception ex)
             {
-                MessageBox.Show(this, PageContext.GetInstance().GetResourceString("LoadTrueCryptDllFailed"), Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Stop);
-                silentExit = true;
-                Close();
+                if (ex is DllNotFoundException || ex is EntryPointNotFoundException)
+                {
+                    MessageBox.Show(this, PageContext.GetInstance().GetResourceString("LoadTrueCryptDllFailed"), Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                    silentExit = true;
+                    Close();
+                    return;
+                }
+                throw;
             }
 
             // try to open the TestCrypt driver just to test whether the driver can be opened

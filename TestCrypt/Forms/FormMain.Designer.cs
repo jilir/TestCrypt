@@ -92,8 +92,8 @@
             // 
             // mnuChsLbaConverter
             // 
-            this.mnuChsLbaConverter.Name = "mnuChsLbaConverter";
             resources.ApplyResources(this.mnuChsLbaConverter, "mnuChsLbaConverter");
+            this.mnuChsLbaConverter.Name = "mnuChsLbaConverter";
             this.mnuChsLbaConverter.Click += new System.EventHandler(this.mnuChsLbaConverter_Click);
             // 
             // mnuLanguage

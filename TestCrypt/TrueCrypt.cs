@@ -175,23 +175,101 @@ namespace TestCrypt
         #endregion
 
         #region P/Invoke
-        [DllImport("TrueCrypt.dll", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
-        public static extern int ReadVolumeHeader(bool bBoot, byte[] encryptedHeader, ref Password password, IntPtr retInfo, ref CRYPTO_INFO retHeaderCryptoInfo);
+        [DllImport("TrueCrypt.dll", EntryPoint = "EncryptionThreadPoolStart", CallingConvention = CallingConvention.StdCall)]
+        private static extern bool EncryptionThreadPoolStart_32(int encryptionFreeCpuCount);
+        [DllImport("TrueCrypt-x64.dll", EntryPoint = "EncryptionThreadPoolStart", CallingConvention = CallingConvention.StdCall)]
+        private static extern bool EncryptionThreadPoolStart_64(int encryptionFreeCpuCount);
+        public static bool EncryptionThreadPoolStart(int encryptionFreeCpuCount)
+        {
+            if (Environment.Is64BitProcess)
+            {
+                return EncryptionThreadPoolStart_64(encryptionFreeCpuCount);
+            }
+            else
+            {
+                return EncryptionThreadPoolStart_32(encryptionFreeCpuCount);
+            }
+        }
 
-        [DllImport("TrueCrypt.dll", CallingConvention = CallingConvention.StdCall)]
-        public static extern bool EncryptionThreadPoolStart(int encryptionFreeCpuCount);
+        [DllImport("TrueCrypt.dll", EntryPoint = "ReadVolumeHeader", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
+        private static extern int ReadVolumeHeader_32(bool bBoot, byte[] encryptedHeader, ref Password password, IntPtr retInfo, ref CRYPTO_INFO retHeaderCryptoInfo);
+        [DllImport("TrueCrypt-x64.dll", EntryPoint = "ReadVolumeHeader", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
+        private static extern int ReadVolumeHeader_64(bool bBoot, byte[] encryptedHeader, ref Password password, IntPtr retInfo, ref CRYPTO_INFO retHeaderCryptoInfo);
+        public static int ReadVolumeHeader(bool bBoot, byte[] encryptedHeader, ref Password password, IntPtr retInfo, ref CRYPTO_INFO retHeaderCryptoInfo)
+        {
+            if (Environment.Is64BitProcess)
+            {
+                return ReadVolumeHeader_64(bBoot, encryptedHeader, ref password, retInfo, ref retHeaderCryptoInfo);
+            }
+            else
+            {
+                return ReadVolumeHeader_32(bBoot, encryptedHeader, ref password, retInfo, ref retHeaderCryptoInfo);
+            }
+        }
 
-        [DllImport("TrueCrypt.dll", CallingConvention = CallingConvention.StdCall)]
-        private static extern IntPtr KeyFileAdd(IntPtr firstKeyFile, IntPtr keyFile);
+        [DllImport("TrueCrypt.dll", EntryPoint = "KeyFileAdd", CallingConvention = CallingConvention.StdCall)]
+        private static extern IntPtr KeyFileAdd_32(IntPtr firstKeyFile, IntPtr keyFile);
+        [DllImport("TrueCrypt-x64.dll", EntryPoint = "KeyFileAdd", CallingConvention = CallingConvention.StdCall)]
+        private static extern IntPtr KeyFileAdd_64(IntPtr firstKeyFile, IntPtr keyFile);
+        private static IntPtr KeyFileAdd(IntPtr firstKeyFile, IntPtr keyFile)
+        {
+            if (Environment.Is64BitProcess)
+            {
+                return KeyFileAdd_64(firstKeyFile, keyFile);
+            }
+            else
+            {
+                return KeyFileAdd_32(firstKeyFile, keyFile);
+            }
+        }
 
-        [DllImport("TrueCrypt.dll", CallingConvention = CallingConvention.StdCall)]
-        private static extern void KeyFileRemoveAll(ref IntPtr firstKeyFile);
+        [DllImport("TrueCrypt.dll", EntryPoint = "KeyFileRemoveAll", CallingConvention = CallingConvention.StdCall)]
+        private static extern void KeyFileRemoveAll_32(ref IntPtr firstKeyFile);
+        [DllImport("TrueCrypt-x64.dll", EntryPoint = "KeyFileRemoveAll", CallingConvention = CallingConvention.StdCall)]
+        private static extern void KeyFileRemoveAll_64(ref IntPtr firstKeyFile);
+        private static void KeyFileRemoveAll(ref IntPtr firstKeyFile)
+        {
+            if (Environment.Is64BitProcess)
+            {
+                KeyFileRemoveAll_64(ref firstKeyFile);
+            }
+            else
+            {
+                KeyFileRemoveAll_32(ref firstKeyFile);
+            }
+        }
 
-        [DllImport("TrueCrypt.dll", CallingConvention = CallingConvention.StdCall)]
-        private static extern IntPtr KeyFileClone(ref KeyFile keyFile);
+        [DllImport("TrueCrypt.dll", EntryPoint = "KeyFileClone", CallingConvention = CallingConvention.StdCall)]
+        private static extern IntPtr KeyFileClone_32(ref KeyFile keyFile);
+        [DllImport("TrueCrypt-x64.dll", EntryPoint = "KeyFileClone", CallingConvention = CallingConvention.StdCall)]
+        private static extern IntPtr KeyFileClone_64(ref KeyFile keyFile);
+        private static IntPtr KeyFileClone(ref KeyFile keyFile)
+        {
+            if (Environment.Is64BitProcess)
+            {
+                return KeyFileClone_64(ref keyFile);
+            }
+            else
+            {
+                return KeyFileClone_32(ref keyFile);
+            }
+        }
 
-        [DllImport("TrueCrypt.dll", CallingConvention = CallingConvention.StdCall)]
-        private static extern bool KeyFilesApply(ref Password password, IntPtr firstKeyFile);
+        [DllImport("TrueCrypt.dll", EntryPoint = "KeyFilesApply", CallingConvention = CallingConvention.StdCall)]
+        private static extern bool KeyFilesApply_32(ref Password password, IntPtr firstKeyFile);
+        [DllImport("TrueCrypt-x64.dll", EntryPoint = "KeyFilesApply", CallingConvention = CallingConvention.StdCall)]
+        private static extern bool KeyFilesApply_64(ref Password password, IntPtr firstKeyFile);
+        private static bool KeyFilesApply(ref Password password, IntPtr firstKeyFile)
+        {
+            if (Environment.Is64BitProcess)
+            {
+                return KeyFilesApply_64(ref password, firstKeyFile);
+            }
+            else
+            {
+                return KeyFilesApply_32(ref password, firstKeyFile);
+            }
+        }
 
         [DllImport("Mpr.dll", CharSet = CharSet.Unicode)]
         private static extern int WNetGetConnection(string lpLocalName, IntPtr lpRemoteName, ref uint lpnLength);

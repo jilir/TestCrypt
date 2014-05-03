@@ -144,20 +144,20 @@
   <data name="chkLrw.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
+  <data name="chkSerpentBlowfishAes.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
   <data name="chkAesSerpent.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
   <data name="chkBlowfishAes.Size" type="System.Drawing.Size, System.Drawing">
     <value>154, 17</value>
   </data>
-  <data name="chkOuterCbc.TabIndex" type="System.Int32, mscorlib">
-    <value>4</value>
+  <data name="&gt;&gt;chkSha1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;chkOuterCbc.Parent" xml:space="preserve">
     <value>grpMode</value>
-  </data>
-  <data name="chkSha512.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
   </data>
   <data name="&gt;&gt;chkRipemd160.ZOrder" xml:space="preserve">
     <value>3</value>
@@ -165,11 +165,11 @@
   <data name="&gt;&gt;chkLrw.Type" xml:space="preserve">
     <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="chkSha512.Text" xml:space="preserve">
-    <value>SHA-512</value>
+  <data name="&gt;&gt;chkAesTwofishSerpent.Parent" xml:space="preserve">
+    <value>grpEncryptionAlgorithm</value>
   </data>
-  <data name="chkCast.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
+  <data name="&gt;&gt;chkSerpentTwofish.Parent" xml:space="preserve">
+    <value>grpEncryptionAlgorithm</value>
   </data>
   <data name="chkSerpentTwofishAes.Location" type="System.Drawing.Point, System.Drawing">
     <value>370, 42</value>
@@ -192,6 +192,12 @@
   <data name="&gt;&gt;chkTwofish.Parent" xml:space="preserve">
     <value>grpEncryptionAlgorithm</value>
   </data>
+  <data name="&gt;&gt;chkInnerCbc.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="chkAes.Location" type="System.Drawing.Point, System.Drawing">
+    <value>8, 19</value>
+  </data>
   <data name="chkWhirlpool.Location" type="System.Drawing.Point, System.Drawing">
     <value>8, 65</value>
   </data>
@@ -204,8 +210,8 @@
   <data name="chkTwofishAes.TabIndex" type="System.Int32, mscorlib">
     <value>7</value>
   </data>
-  <data name="chkCast.Location" type="System.Drawing.Point, System.Drawing">
-    <value>8, 111</value>
+  <data name="&gt;&gt;chkInnerCbc.Name" xml:space="preserve">
+    <value>chkInnerCbc</value>
   </data>
   <data name="chkOuterCbc.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -228,9 +234,6 @@
   <data name="&gt;&gt;chkXts.ZOrder" xml:space="preserve">
     <value>4</value>
   </data>
-  <data name="grpMode.Text" xml:space="preserve">
-    <value>Mode</value>
-  </data>
   <data name="&gt;&gt;chkXts.Name" xml:space="preserve">
     <value>chkXts</value>
   </data>
@@ -246,8 +249,8 @@
   <data name="&gt;&gt;chkLrw.Name" xml:space="preserve">
     <value>chkLrw</value>
   </data>
-  <data name="grpMode.Location" type="System.Drawing.Point, System.Drawing">
-    <value>207, 3</value>
+  <data name="&gt;&gt;chkAesSerpent.Parent" xml:space="preserve">
+    <value>grpEncryptionAlgorithm</value>
   </data>
   <data name="&gt;&gt;chkRipemd160.Type" xml:space="preserve">
     <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -258,8 +261,8 @@
   <data name="chkTripleDes.TabIndex" type="System.Int32, mscorlib">
     <value>11</value>
   </data>
-  <data name="chkTwofish.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
+  <data name="&gt;&gt;chkRipemd160.Name" xml:space="preserve">
+    <value>chkRipemd160</value>
   </data>
   <data name="chkSerpentTwofishAes.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -300,23 +303,26 @@
   <data name="&gt;&gt;chkBlowfish.ZOrder" xml:space="preserve">
     <value>3</value>
   </data>
+  <data name="&gt;&gt;chkSerpent.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="chkTwofish.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
   <data name="chkBlowfish.Size" type="System.Drawing.Size, System.Drawing">
     <value>128, 17</value>
   </data>
-  <data name="&gt;&gt;chkRipemd160.Name" xml:space="preserve">
-    <value>chkRipemd160</value>
+  <data name="chkAes.Text" xml:space="preserve">
+    <value>AES</value>
   </data>
   <data name="chkOuterCbc.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="grpMode.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
   <data name="chkAesTwofishSerpent.Size" type="System.Drawing.Size, System.Drawing">
     <value>131, 17</value>
   </data>
-  <data name="&gt;&gt;chkWhirlpool.ZOrder" xml:space="preserve">
-    <value>1</value>
+  <data name="chkSha1.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
   </data>
   <data name="&gt;&gt;chkBlowfish.Parent" xml:space="preserve">
     <value>grpEncryptionAlgorithm</value>
@@ -324,14 +330,8 @@
   <data name="&gt;&gt;chkTwofishAes.Type" xml:space="preserve">
     <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="chkLrw.Size" type="System.Drawing.Size, System.Drawing">
-    <value>114, 17</value>
-  </data>
   <data name="&gt;&gt;chkSha512.Type" xml:space="preserve">
     <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="grpMode.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Left, Right</value>
   </data>
   <data name="chkSerpentBlowfishAes.Size" type="System.Drawing.Size, System.Drawing">
     <value>196, 17</value>
@@ -339,23 +339,17 @@
   <data name="&gt;&gt;chkCast.Name" xml:space="preserve">
     <value>chkCast</value>
   </data>
-  <data name="chkAesTwofishSerpent.Text" xml:space="preserve">
-    <value>AES/Twofish/Serpent</value>
-  </data>
   <data name="chkWhirlpool.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
-  </data>
-  <data name="chkSerpent.Text" xml:space="preserve">
-    <value>Serpent</value>
   </data>
   <data name="&gt;&gt;chkSerpentTwofish.Type" xml:space="preserve">
     <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="chkSerpentTwofish.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
+  <data name="chkInnerCbc.Size" type="System.Drawing.Size, System.Drawing">
+    <value>137, 17</value>
   </data>
-  <data name="chkSerpentTwofish.Size" type="System.Drawing.Size, System.Drawing">
-    <value>105, 17</value>
+  <data name="&gt;&gt;chkAesSerpent.ZOrder" xml:space="preserve">
+    <value>11</value>
   </data>
   <data name="chkSerpentBlowfishAes.Location" type="System.Drawing.Point, System.Drawing">
     <value>370, 111</value>
@@ -369,11 +363,11 @@
   <data name="chkAes.Size" type="System.Drawing.Size, System.Drawing">
     <value>47, 17</value>
   </data>
+  <data name="&gt;&gt;chkTripleDes.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
   <data name="&gt;&gt;chkAes.Type" xml:space="preserve">
     <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="chkSha1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>117, 17</value>
   </data>
   <data name="chkAesSerpent.Size" type="System.Drawing.Size, System.Drawing">
     <value>89, 17</value>
@@ -384,8 +378,8 @@
   <data name="chkCbc.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="chkBlowfishAes.TabIndex" type="System.Int32, mscorlib">
-    <value>9</value>
+  <data name="chkSerpentTwofish.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
   </data>
   <data name="chkSerpentTwofish.TabIndex" type="System.Int32, mscorlib">
     <value>4</value>
@@ -414,6 +408,9 @@
   <data name="chkBlowfish.Location" type="System.Drawing.Point, System.Drawing">
     <value>8, 88</value>
   </data>
+  <data name="chkAes.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
   <data name="chkTwofishAes.Location" type="System.Drawing.Point, System.Drawing">
     <value>210, 65</value>
   </data>
@@ -432,8 +429,8 @@
   <data name="chkXts.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="chkSerpentBlowfishAes.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
+  <data name="&gt;&gt;chkCast.Parent" xml:space="preserve">
+    <value>grpEncryptionAlgorithm</value>
   </data>
   <data name="&gt;&gt;grpMode.Type" xml:space="preserve">
     <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -444,9 +441,6 @@
   <data name="&gt;&gt;chkAes.Parent" xml:space="preserve">
     <value>grpEncryptionAlgorithm</value>
   </data>
-  <data name="&gt;&gt;chkSha1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="&gt;&gt;chkAesTwofishSerpent.ZOrder" xml:space="preserve">
     <value>10</value>
   </data>
@@ -456,11 +450,11 @@
   <data name="&gt;&gt;chkSerpentBlowfishAes.Parent" xml:space="preserve">
     <value>grpEncryptionAlgorithm</value>
   </data>
-  <data name="chkSerpentBlowfishAes.Text" xml:space="preserve">
-    <value>Serpent/Blowfish/AES (deprecated)</value>
+  <data name="chkBlowfishAes.TabIndex" type="System.Int32, mscorlib">
+    <value>9</value>
   </data>
-  <data name="&gt;&gt;chkAes.Name" xml:space="preserve">
-    <value>chkAes</value>
+  <data name="chkCast.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
   </data>
   <data name="chkXts.Size" type="System.Drawing.Size, System.Drawing">
     <value>47, 17</value>
@@ -468,11 +462,8 @@
   <data name="chkOuterCbc.Size" type="System.Drawing.Size, System.Drawing">
     <value>139, 17</value>
   </data>
-  <data name="grpEncryptionAlgorithm.Size" type="System.Drawing.Size, System.Drawing">
-    <value>574, 129</value>
-  </data>
-  <data name="chkInnerCbc.Text" xml:space="preserve">
-    <value>Inner-CBC (deprecated)</value>
+  <data name="&gt;&gt;chkXts.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="chkXts.Location" type="System.Drawing.Point, System.Drawing">
     <value>6, 19</value>
@@ -495,8 +486,11 @@
   <data name="&gt;&gt;chkCast.Type" xml:space="preserve">
     <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;grpMode.ZOrder" xml:space="preserve">
-    <value>1</value>
+  <data name="chkSerpent.Location" type="System.Drawing.Point, System.Drawing">
+    <value>8, 42</value>
+  </data>
+  <data name="chkTripleDes.Location" type="System.Drawing.Point, System.Drawing">
+    <value>210, 111</value>
   </data>
   <data name="&gt;&gt;chkOuterCbc.Type" xml:space="preserve">
     <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -507,17 +501,14 @@
   <data name="chkSha512.Location" type="System.Drawing.Point, System.Drawing">
     <value>8, 42</value>
   </data>
-  <data name="&gt;&gt;chkCbc.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="chkLrw.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="chkSerpent.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
   <data name="chkSerpentTwofishAes.Size" type="System.Drawing.Size, System.Drawing">
     <value>131, 17</value>
-  </data>
-  <data name="&gt;&gt;chkSerpentTwofish.Parent" xml:space="preserve">
-    <value>grpEncryptionAlgorithm</value>
   </data>
   <data name="&gt;&gt;chkSerpentBlowfishAes.Type" xml:space="preserve">
     <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -534,11 +525,8 @@
   <data name="chkBlowfish.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="&gt;&gt;chkCast.Parent" xml:space="preserve">
-    <value>grpEncryptionAlgorithm</value>
-  </data>
-  <data name="chkSerpent.Location" type="System.Drawing.Point, System.Drawing">
-    <value>8, 42</value>
+  <data name="grpMode.Location" type="System.Drawing.Point, System.Drawing">
+    <value>207, 3</value>
   </data>
   <data name="chkBlowfish.Text" xml:space="preserve">
     <value>Blowfish (deprecated)</value>
@@ -552,11 +540,14 @@
   <data name="chkTwofish.Location" type="System.Drawing.Point, System.Drawing">
     <value>8, 65</value>
   </data>
+  <data name="chkRipemd160.Location" type="System.Drawing.Point, System.Drawing">
+    <value>8, 19</value>
+  </data>
   <data name="&gt;&gt;chkAes.ZOrder" xml:space="preserve">
     <value>12</value>
   </data>
-  <data name="&gt;&gt;chkLrw.Parent" xml:space="preserve">
-    <value>grpMode</value>
+  <data name="chkXts.Text" xml:space="preserve">
+    <value>XTS</value>
   </data>
   <data name="chkSha512.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -576,14 +567,14 @@
   <data name="chkInnerCbc.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="&gt;&gt;chkSerpentTwofishAes.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="chkOuterCbc.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
   </data>
   <data name="chkSerpent.Size" type="System.Drawing.Size, System.Drawing">
     <value>63, 17</value>
   </data>
-  <data name="&gt;&gt;chkAesSerpent.Parent" xml:space="preserve">
-    <value>grpEncryptionAlgorithm</value>
+  <data name="grpMode.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
   </data>
   <data name="grpPkcs5Prf.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -591,11 +582,11 @@
   <data name="chkSha512.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="&gt;&gt;chkInnerCbc.Name" xml:space="preserve">
-    <value>chkInnerCbc</value>
+  <data name="&gt;&gt;chkCast.ZOrder" xml:space="preserve">
+    <value>2</value>
   </data>
-  <data name="chkSha1.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
+  <data name="chkSha512.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
   </data>
   <data name="$this.Size" type="System.Drawing.Size, System.Drawing">
     <value>580, 248</value>
@@ -609,6 +600,9 @@
   <data name="&gt;&gt;chkCbc.ZOrder" xml:space="preserve">
     <value>2</value>
   </data>
+  <data name="&gt;&gt;chkSerpentTwofishAes.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="&gt;&gt;chkTwofish.Name" xml:space="preserve">
     <value>chkTwofish</value>
   </data>
@@ -618,8 +612,8 @@
   <data name="chkTripleDes.Text" xml:space="preserve">
     <value>Triple DES (deprecated)</value>
   </data>
-  <data name="&gt;&gt;chkWhirlpool.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="chkCast.Size" type="System.Drawing.Size, System.Drawing">
+    <value>117, 17</value>
   </data>
   <data name="&gt;&gt;chkTripleDes.Parent" xml:space="preserve">
     <value>grpEncryptionAlgorithm</value>
@@ -645,8 +639,8 @@
   <data name="chkAesTwofishSerpent.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="chkAes.Text" xml:space="preserve">
-    <value>AES</value>
+  <data name="chkSerpent.Text" xml:space="preserve">
+    <value>Serpent</value>
   </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
     <value>TestCrypt.WizardPage, TestCrypt, Version=0.9.0.0, Culture=neutral, PublicKeyToken=null</value>
@@ -663,8 +657,8 @@
   <data name="grpPkcs5Prf.Size" type="System.Drawing.Size, System.Drawing">
     <value>193, 107</value>
   </data>
-  <data name="&gt;&gt;chkSerpent.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="&gt;&gt;chkWhirlpool.ZOrder" xml:space="preserve">
+    <value>1</value>
   </data>
   <data name="chkCast.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -675,20 +669,17 @@
   <data name="grpPkcs5Prf.Text" xml:space="preserve">
     <value>PKCS#5 Pseudo-Random Function</value>
   </data>
-  <data name="chkCbc.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
-  </data>
   <data name="chkCbc.Location" type="System.Drawing.Point, System.Drawing">
     <value>6, 65</value>
   </data>
-  <data name="chkTripleDes.Location" type="System.Drawing.Point, System.Drawing">
-    <value>210, 111</value>
+  <data name="chkSha1.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
   </data>
-  <data name="chkRipemd160.Location" type="System.Drawing.Point, System.Drawing">
-    <value>8, 19</value>
+  <data name="chkSerpentTwofish.Size" type="System.Drawing.Size, System.Drawing">
+    <value>105, 17</value>
   </data>
-  <data name="chkAes.Location" type="System.Drawing.Point, System.Drawing">
-    <value>8, 19</value>
+  <data name="grpMode.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Left, Right</value>
   </data>
   <data name="chkSerpentTwofishAes.Text" xml:space="preserve">
     <value>Serpent/Twofish/AES</value>
@@ -696,14 +687,14 @@
   <data name="&gt;&gt;chkLrw.ZOrder" xml:space="preserve">
     <value>3</value>
   </data>
-  <data name="&gt;&gt;chkAesSerpent.ZOrder" xml:space="preserve">
-    <value>11</value>
+  <data name="grpEncryptionAlgorithm.Size" type="System.Drawing.Size, System.Drawing">
+    <value>574, 129</value>
   </data>
   <data name="chkAesSerpent.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
   </data>
-  <data name="&gt;&gt;chkXts.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="chkSha1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>117, 17</value>
   </data>
   <data name="chkSha1.Text" xml:space="preserve">
     <value>SHA1 (deprecated)</value>
@@ -711,11 +702,11 @@
   <data name="&gt;&gt;chkAesTwofishSerpent.Type" xml:space="preserve">
     <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;chkInnerCbc.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="&gt;&gt;chkLrw.Parent" xml:space="preserve">
+    <value>grpMode</value>
   </data>
-  <data name="chkSha512.Size" type="System.Drawing.Size, System.Drawing">
-    <value>69, 17</value>
+  <data name="chkSerpentBlowfishAes.Text" xml:space="preserve">
+    <value>Serpent/Blowfish/AES (deprecated)</value>
   </data>
   <data name="chkWhirlpool.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
@@ -735,14 +726,17 @@
   <data name="&gt;&gt;chkSerpent.Parent" xml:space="preserve">
     <value>grpEncryptionAlgorithm</value>
   </data>
-  <data name="&gt;&gt;chkCast.ZOrder" xml:space="preserve">
-    <value>2</value>
+  <data name="chkTripleDes.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="chkCast.Location" type="System.Drawing.Point, System.Drawing">
+    <value>8, 111</value>
   </data>
   <data name="&gt;&gt;chkTripleDes.Name" xml:space="preserve">
     <value>chkTripleDes</value>
   </data>
-  <data name="chkTwofishAes.Size" type="System.Drawing.Size, System.Drawing">
-    <value>89, 17</value>
+  <data name="grpMode.Text" xml:space="preserve">
+    <value>Mode</value>
   </data>
   <data name="chkCbc.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -753,11 +747,14 @@
   <data name="chkSha1.Location" type="System.Drawing.Point, System.Drawing">
     <value>8, 88</value>
   </data>
+  <data name="&gt;&gt;chkSerpent.ZOrder" xml:space="preserve">
+    <value>9</value>
+  </data>
   <data name="chkBlowfish.TabIndex" type="System.Int32, mscorlib">
     <value>8</value>
   </data>
-  <data name="chkSha1.TabIndex" type="System.Int32, mscorlib">
-    <value>3</value>
+  <data name="&gt;&gt;chkCbc.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;chkSerpentTwofish.ZOrder" xml:space="preserve">
     <value>8</value>
@@ -783,8 +780,8 @@
   <data name="&gt;&gt;chkSerpentBlowfishAes.ZOrder" xml:space="preserve">
     <value>6</value>
   </data>
-  <data name="chkCast.Size" type="System.Drawing.Size, System.Drawing">
-    <value>117, 17</value>
+  <data name="&gt;&gt;chkWhirlpool.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;grpEncryptionAlgorithm.Name" xml:space="preserve">
     <value>grpEncryptionAlgorithm</value>
@@ -792,8 +789,8 @@
   <data name="&gt;&gt;chkTwofishAes.ZOrder" xml:space="preserve">
     <value>4</value>
   </data>
-  <data name="chkTripleDes.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
+  <data name="chkInnerCbc.Text" xml:space="preserve">
+    <value>Inner-CBC (deprecated)</value>
   </data>
   <data name="&gt;&gt;grpEncryptionAlgorithm.Type" xml:space="preserve">
     <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -816,8 +813,11 @@
   <data name="chkBlowfishAes.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="&gt;&gt;chkAesTwofishSerpent.Parent" xml:space="preserve">
-    <value>grpEncryptionAlgorithm</value>
+  <data name="&gt;&gt;chkAes.Name" xml:space="preserve">
+    <value>chkAes</value>
+  </data>
+  <data name="chkSha512.Size" type="System.Drawing.Size, System.Drawing">
+    <value>69, 17</value>
   </data>
   <data name="&gt;&gt;grpPkcs5Prf.Name" xml:space="preserve">
     <value>grpPkcs5Prf</value>
@@ -828,11 +828,11 @@
   <data name="&gt;&gt;grpPkcs5Prf.Type" xml:space="preserve">
     <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;chkSerpent.ZOrder" xml:space="preserve">
-    <value>9</value>
+  <data name="&gt;&gt;grpMode.ZOrder" xml:space="preserve">
+    <value>1</value>
   </data>
-  <data name="chkInnerCbc.Size" type="System.Drawing.Size, System.Drawing">
-    <value>137, 17</value>
+  <data name="chkSha512.Text" xml:space="preserve">
+    <value>SHA-512</value>
   </data>
   <data name="&gt;&gt;chkSha1.Name" xml:space="preserve">
     <value>chkSha1</value>
@@ -852,14 +852,14 @@
   <data name="chkSerpentTwofishAes.TabIndex" type="System.Int32, mscorlib">
     <value>5</value>
   </data>
-  <data name="chkXts.Text" xml:space="preserve">
-    <value>XTS</value>
+  <data name="chkTwofishAes.Size" type="System.Drawing.Size, System.Drawing">
+    <value>89, 17</value>
   </data>
-  <data name="&gt;&gt;chkTripleDes.ZOrder" xml:space="preserve">
-    <value>1</value>
+  <data name="chkCbc.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
   </data>
-  <data name="chkSerpent.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
+  <data name="chkAesTwofishSerpent.Text" xml:space="preserve">
+    <value>AES/Twofish/Serpent</value>
   </data>
   <data name="&gt;&gt;chkInnerCbc.ZOrder" xml:space="preserve">
     <value>1</value>
@@ -873,13 +873,10 @@
   <data name="grpEncryptionAlgorithm.Location" type="System.Drawing.Point, System.Drawing">
     <value>3, 116</value>
   </data>
-  <data name="chkAes.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
+  <data name="chkLrw.Size" type="System.Drawing.Size, System.Drawing">
+    <value>114, 17</value>
   </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
-  </metadata>
-  <metadata name="$this.Language" type="System.Globalization.CultureInfo, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>de</value>
   </metadata>
 </root>

@@ -35,7 +35,9 @@
             this.btnSelect = new System.Windows.Forms.Button();
             this.txtHeader = new System.Windows.Forms.TextBox();
             this.lblInfo = new System.Windows.Forms.Label();
-            this.lsvInfo = new System.Windows.Forms.ListView();
+            this.lsvProperties = new System.Windows.Forms.ListView();
+            this.lsvPropertiesColProperty = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.lsvPropertiesColValue = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.lblHeader = new System.Windows.Forms.Label();
             this.grpMatch = new System.Windows.Forms.GroupBox();
             this.hexMatch = new Be.Windows.Forms.HexBox();
@@ -70,7 +72,7 @@
             this.grpHeader.Controls.Add(this.btnSelect);
             this.grpHeader.Controls.Add(this.txtHeader);
             this.grpHeader.Controls.Add(this.lblInfo);
-            this.grpHeader.Controls.Add(this.lsvInfo);
+            this.grpHeader.Controls.Add(this.lsvProperties);
             this.grpHeader.Controls.Add(this.lblHeader);
             this.grpHeader.Name = "grpHeader";
             this.grpHeader.TabStop = false;
@@ -93,12 +95,26 @@
             resources.ApplyResources(this.lblInfo, "lblInfo");
             this.lblInfo.Name = "lblInfo";
             // 
-            // lsvInfo
+            // lsvProperties
             // 
-            resources.ApplyResources(this.lsvInfo, "lsvInfo");
-            this.lsvInfo.BackColor = System.Drawing.SystemColors.Control;
-            this.lsvInfo.Name = "lsvInfo";
-            this.lsvInfo.UseCompatibleStateImageBehavior = false;
+            resources.ApplyResources(this.lsvProperties, "lsvProperties");
+            this.lsvProperties.BackColor = System.Drawing.SystemColors.Control;
+            this.lsvProperties.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.lsvPropertiesColProperty,
+            this.lsvPropertiesColValue});
+            this.lsvProperties.FullRowSelect = true;
+            this.lsvProperties.MultiSelect = false;
+            this.lsvProperties.Name = "lsvProperties";
+            this.lsvProperties.UseCompatibleStateImageBehavior = false;
+            this.lsvProperties.View = System.Windows.Forms.View.Details;
+            // 
+            // lsvPropertiesColProperty
+            // 
+            resources.ApplyResources(this.lsvPropertiesColProperty, "lsvPropertiesColProperty");
+            // 
+            // lsvPropertiesColValue
+            // 
+            resources.ApplyResources(this.lsvPropertiesColValue, "lsvPropertiesColValue");
             // 
             // lblHeader
             // 
@@ -147,10 +163,12 @@
         internal System.Windows.Forms.Button btnSelect;
         private System.Windows.Forms.TextBox txtHeader;
         private System.Windows.Forms.Label lblInfo;
-        private System.Windows.Forms.ListView lsvInfo;
+        private System.Windows.Forms.ListView lsvProperties;
         private System.Windows.Forms.Label lblHeader;
         private System.Windows.Forms.GroupBox grpMatch;
         private Be.Windows.Forms.HexBox hexMatch;
+        private System.Windows.Forms.ColumnHeader lsvPropertiesColProperty;
+        private System.Windows.Forms.ColumnHeader lsvPropertiesColValue;
 
     }
 }

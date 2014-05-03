@@ -19,6 +19,10 @@ namespace TestCrypt.Forms
         private string filename;
         #endregion
 
+        #region Properties
+        public TrueCrypt.CRYPTO_INFO CryptoInfo { get; set; }
+        #endregion
+
         #region Constructors
         /// <summary>
         /// Constructor.
@@ -48,26 +52,47 @@ namespace TestCrypt.Forms
                 using (FileStream fs = new FileStream(filename, FileMode.Open, FileAccess.Read, FileShare.Read))
                 {
                     byte[] data = new byte[TrueCrypt.TC_VOLUME_HEADER_GROUP_SIZE];
-                    fs.Read(data, 0, data.Length);
+                    int count = fs.Read(data, 0, data.Length);
                     fs.Close();
 
-                    IntPtr cryptoInfo = IntPtr.Zero;
-                    /*if (0 == TrueCrypt.ReadVolumeHeader(false, data, ref password.Value, ref cryptoInfo, IntPtr.Zero))
+                    int offset = 0;
+                    TrueCrypt.Password pwd = password.Value;
+                    while (offset + TrueCrypt.TC_VOLUME_HEADER_SIZE_LEGACY <= count)
                     {
-                        TrueCrypt.CRYPTO_INFO cryptInfoStruct = (TrueCrypt.CRYPTO_INFO)Marshal.PtrToStructure(cryptoInfo, typeof(TrueCrypt.CRYPTO_INFO));
-                        MessageBox.Show(string.Format("TrueCrypt header successfully decrypted (Version {0}, Size {1}, Offset {2}, {3}, Sectorsize {4}).", cryptInfoStruct.HeaderVersion, cryptInfoStruct.VolumeSize, cryptInfoStruct.EncryptedAreaStart, cryptInfoStruct.hiddenVolume ? "Hidden" : "Normal", cryptInfoStruct.SectorSize), "Header Decrypted", MessageBoxButtons.OK);
-                        refUnit = (ulong)nudOffset.Value;
+                        Array.Copy(data, offset, data, 0, TrueCrypt.TC_VOLUME_HEADER_SIZE_LEGACY);
+                        TrueCrypt.CRYPTO_INFO cryptoInfo = new TrueCrypt.CRYPTO_INFO();
+                        if (0 == TrueCrypt.ReadVolumeHeader(false, data, ref pwd, IntPtr.Zero, ref cryptoInfo))
+                        {
+                            CryptoInfo = cryptoInfo;
+                            break;
+                        }
+                        offset += TrueCrypt.TC_VOLUME_HEADER_SIZE;
+                    }
+
+                    if (offset + TrueCrypt.TC_VOLUME_HEADER_SIZE_LEGACY <= count)
+                    {
+                        // select the default keyboard layout and close the dialog (after setting the result of the dialog)
+                        InputLanguage.CurrentInputLanguage = InputLanguage.DefaultInputLanguage;
+                        DialogResult = DialogResult.OK;
+                        Close();
                     }
                     else
                     {
-                        MessageBox.Show("Invalid password or not a TrueCrypt header.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }*/
+                        MessageBox.Show(PageContext.GetInstance().GetResourceString("PasswordIncorrect"), Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    }
                 }
-
-                // select the default keyboard layout
-                //InputLanguage.CurrentInputLanguage = InputLanguage.DefaultInputLanguage;
-
             }
+        }
+
+        /// <summary>
+        /// "Click" event handler of the "Cancel" button.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="T:System.EventArgs" /> instance containing the event data.</param>
+        private void btnCancel_Click(object sender, EventArgs e)
+        {
+            // select the default keyboard layout
+            InputLanguage.CurrentInputLanguage = InputLanguage.DefaultInputLanguage;
         }
 
         private void page_ReadyChanged(object sender, EventArgs e)

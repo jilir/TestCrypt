@@ -133,6 +133,39 @@
   <data name="Exit" xml:space="preserve">
     <value>Soll TestCrypt wirklich beendet werden?</value>
   </data>
+  <data name="HeaderPropertyEncryptedAreaOffset" xml:space="preserve">
+    <value>Offset (in Bytes)</value>
+  </data>
+  <data name="HeaderPropertyEncryptionAlgorithm" xml:space="preserve">
+    <value>Verschlüsselungsalgorithmus</value>
+  </data>
+  <data name="HeaderPropertyHeaderVersion" xml:space="preserve">
+    <value>Header Version</value>
+  </data>
+  <data name="HeaderPropertyOperationMode" xml:space="preserve">
+    <value>Verschlüsselungsmodus</value>
+  </data>
+  <data name="HeaderPropertyPkcs5Prf" xml:space="preserve">
+    <value>PKCS#5 PRF</value>
+  </data>
+  <data name="HeaderPropertyRequiredTrueCryptVersion" xml:space="preserve">
+    <value>Benötigte TrueCrypt Version</value>
+  </data>
+  <data name="HeaderPropertySectorSize" xml:space="preserve">
+    <value>Sektorgröße (in Bytes)</value>
+  </data>
+  <data name="HeaderPropertySize" xml:space="preserve">
+    <value>Größe (in Bytes)</value>
+  </data>
+  <data name="HeaderPropertyType" xml:space="preserve">
+    <value>Typ</value>
+  </data>
+  <data name="HeaderPropertyTypeHidden" xml:space="preserve">
+    <value>Versteckt</value>
+  </data>
+  <data name="HeaderPropertyTypeNormal" xml:space="preserve">
+    <value>Normal</value>
+  </data>
   <data name="KeyboardLayoutNotAvailable" xml:space="preserve">
     <value>Das "US"-Tastaturlayout kann nicht verwendet werden. Stellen Sie sicher, dass das Tastaturlayout in der Windows® Systemsteuerung aktiviert ist.</value>
   </data>
@@ -147,7 +180,7 @@
     <value>Fehler beim Laden des TestCrypt Treibers</value>
   </data>
   <data name="LoadTrueCryptDllFailed" xml:space="preserve">
-    <value>Fehler beim Laden der DLL-Datei "TrueCrypt.dll". Bitte stellen Sie sicher, dass das "Microsoft Visual C++ 2010 Redistributable Package (x86)" installiert ist.</value>
+    <value>Fehler beim Laden der DLL-Datei "TrueCrypt.dll" bzw. "TrueCrypt-x64.dll".</value>
   </data>
   <data name="OpenTestCryptDriverFailed" xml:space="preserve">
     <value>Das Öffnen des TestCrypt Treibers ist fehlgeschlagen mit Fehlercode 0x{0:X8}: {1}.</value>
@@ -155,6 +188,9 @@
   </data>
   <data name="PageBackWarning" xml:space="preserve">
     <value>Die aktuellen Einstellungen gehen verloren. Möchten Sie wirklich zur vorherigen Ansicht zurückkehren?</value>
+  </data>
+  <data name="PasswordIncorrect" xml:space="preserve">
+    <value>Falsches Passwort oder kein TrueCrypt Header.</value>
   </data>
   <data name="PasswordWithInvalidCharacter" xml:space="preserve">
     <value>Das eingegebene Passwort enhält die folgenden Zeichen, welche nicht Teil des ASCII Zeichensatzes sind: {0}. Aktuelle Versionen von TrueCrypt verbieten das Erstellen eines TrueCrypt-Volumes mit diesem Passwort.\n\nMöchten Sie wirklich mit diesem Passwort fortfahren?</value>
